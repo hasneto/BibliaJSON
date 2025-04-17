@@ -1,4 +1,4 @@
-document.addEventListener("DOMContentLoaded", function () {
+function () {
   const BIBLE_JSON_URL = 'https://raw.githubusercontent.com/hasneto/BibliaJSON/main/NAA.json';
 
   const regexBiblia = /\b(1?\s?[A-Za-zÀ-ú]{1,}\.?\s?[A-Za-zÀ-ú]*\.?)\s?(\d{1,3})[.:](\d{1,3})(?:[-–](\d{1,3}))?\b/g;
