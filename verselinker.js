@@ -1,39 +1,25 @@
 (function () {
   const BIBLE_JSON_URL = 'https://raw.githubusercontent.com/hasneto/BibliaJSON/refs/heads/main/NAA.json';
 
-  const regexBiblia = /\b(1?\s?[A-Za-z]{1,}\.?\s?[A-Za-z]*\.?)\s?(\d{1,3})[.:](\d{1,3})(?:[-–](\d{1,3}))?\b/g;
-
-  const livrosMapeados = {
-    Gn: 'Gn', Êx: 'Êx', Lv: 'Lv', Nm: 'Nm', Dt: 'Dt',
-    Js: 'Js', Jz: 'Jz', Rt: 'Rt', 1Sm: '1Sm', 2Sm: '2Sm',
-    1Rs: '1Rs', 2Rs: '2Rs', 1Cr: '1Cr', 2Cr: '2Cr', Ed: 'Ed',
-    Ne: 'Ne', Et: 'Et', Jó: 'Jó', Sl: 'Sl', Pv: 'Pv',
-    Ec: 'Ec', Ct: 'Ct', Is: 'Is', Jr: 'Jr', Lm: 'Lm',
-    Ez: 'Ez', Dn: 'Dn', Os: 'Os', Jl: 'Jl', Am: 'Am',
-    Ob: 'Ob', Jn: 'Jn', Mq: 'Mq', Na: 'Na', Hc: 'Hc',
-    Sf: 'Sf', Ag: 'Ag', Zc: 'Zc', Ml: 'Ml',
-
-    Mt: 'Mt', Mc: 'Mc', Lc: 'Lc', Jo: 'Jo', At: 'At',
-    Rm: 'Rm', 1Co: '1Co', 2Co: '2Co', Gl: 'Gl', Ef: 'Ef',
-    Fp: 'Fp', Cl: 'Cl', 1Ts: '1Ts', 2Ts: '2Ts', 1Tm: '1Tm',
-    2Tm: '2Tm', Tt: 'Tt', Fm: 'Fm', Hb: 'Hb', Tg: 'Tg',
-    1Pe: '1Pe', 2Pe: '2Pe', 1Jo: '1Jo', 2Jo: '2Jo',
-    3Jo: '3Jo', Jd: 'Jd', Ap: 'Ap'
-  };
+  // Novo regex mais preciso para detectar referências bíblicas
+  const regexBiblia = /\b((?:[1-3]\s*)?(?:[A-ZÁÉÍÓÚÂÊÔÃÕa-záéíóúâêôãõ]{2,}))\.?\s?(\d{1,3})[.:](\d{1,3})(?:[-–](\d{1,3}))?/g;
 
   function normalizarLivro(livro) {
-    return livro.replace(/\s|\./g, '')
+    return livro
+      .replace(/\s/g, '')
+      .replace(/\./g, '')
       .replace(/(1|2|3)([A-Za-z]+)/, (_, num, nome) => `${num}${nome}`)
-      .replace(/^(Genesis|Gn)$/i, 'Gn')
-      .replace(/^(Exodo|Êxodo|Êx)$/i, 'Êx')
-      .replace(/^(Levitico|Lv)$/i, 'Lv')
-      .replace(/^(Numeros|Nm)$/i, 'Nm')
-      .replace(/^(Deuteronomio|Dt)$/i, 'Dt')
-      .replace(/^(Joao|Jo)$/i, 'Jo')
-      .replace(/^(1Corintios|1Co|1Cor)$/i, '1Co')
-      .replace(/^(2Corintios|2Co|2Cor)$/i, '2Co')
-      .replace(/^(Salmos|Sl)$/i, 'Sl')
-      .replace(/^(Romanos|Rm)$/i, 'Rm');
+      .replace(/Joao/i, 'Jo')
+      .replace(/Genesis/i, 'Gn')
+      .replace(/Exodo|Êxodo/i, 'Êx')
+      .replace(/Levitico/i, 'Lv')
+      .replace(/Numeros/i, 'Nm')
+      .replace(/Deuteronomio/i, 'Dt')
+      .replace(/Corintios/i, 'Co')
+      .replace(/1Cor/i, '1Co')
+      .replace(/2Cor/i, '2Co')
+      .replace(/Salmos/i, 'Sl')
+      .replace(/Romanos/i, 'Rm');
   }
 
   function criarTooltip() {
@@ -117,8 +103,11 @@
     });
   }
 
-  fetch(BIBLE_JSON_URL)
-    .then(res => res.json())
-    .then(data => processarTexto(data))
-    .catch(err => console.error('Erro ao carregar a Bíblia:', err));
+  // Espera o conteúdo da página carregar
+  window.addEventListener('DOMContentLoaded', () => {
+    fetch(BIBLE_JSON_URL)
+      .then(res => res.json())
+      .then(data => processarTexto(data))
+      .catch(err => console.error('Erro ao carregar a Bíblia:', err));
+  });
 })();
