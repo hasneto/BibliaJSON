@@ -20,7 +20,7 @@
       .replace(/2Cor/i, '2Co')
       .replace(/Salmos/i, 'Sl')
       .replace(/Romanos/i, 'Rm')
-      .replace(/^(Oseias|Oséias|Os)$/i, 'Os');
+      .replace(/Oseias|Oséias|Os/i, 'Os');
   }
 
   function criarTooltip() {
