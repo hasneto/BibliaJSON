@@ -33,8 +33,7 @@
       .replace(/^(1Corintios|1Co|1Cor)$/i, '1Co')
       .replace(/^(2Corintios|2Co|2Cor)$/i, '2Co')
       .replace(/^(Salmos|Sl)$/i, 'Sl')
-      .replace(/^(Romanos|Rm)$/i, 'Rm')
-      // adicione mais se necessário
+      .replace(/^(Romanos|Rm)$/i, 'Rm');
   }
 
   function criarTooltip() {
