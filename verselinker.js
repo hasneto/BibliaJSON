@@ -1,5 +1,5 @@
 (async () => {
-  const response = await fetch("https://raw.githubusercontent.com/hasneto/BibliaJSON/refs/heads/main/NAA.json");
+  const response = await fetch("https://raw.githubusercontent.com/hasneto/BibliaJSON/main/NAA.json");
   const data = await response.json();
 
   // Cria objeto de busca por Livro.Cap.Vers
