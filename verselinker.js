@@ -1,164 +1,188 @@
-(function () {
-  const BIBLE_JSON_URL = 'https://raw.githubusercontent.com/hasneto/BibliaJSON/main/NAA.json';
+(async () => {
+  const response = await fetch("https://raw.githubusercontent.com/hasneto/BibliaJSON/refs/heads/main/NAA.json");
+  const data = await response.json();
 
-  const regexBiblia = /\b(1?\s?[A-Za-zÀ-ú]{1,}\.?\s?[A-Za-zÀ-ú]*\.?)\s?(\d{1,3})[.:](\d{1,3})(?:[-–](\d{1,3}))?\b/g;
-
-  function normalizarLivro(livro) {
-  return livro.replace(/\s|\./g, '')
-    .replace(/(1|2|3)([A-Za-z]+)/, (_, num, nome) => `${num}${nome}`)
-    .replace(/^(Genesis|Gn)$/i, 'Gn')
-    .replace(/^(Exodo|Êxodo|Ex)$/i, 'Êx')
-    .replace(/^(Levitico|Lv)$/i, 'Lv')
-    .replace(/^(Numeros|Nm)$/i, 'Nm')
-    .replace(/^(Deuteronomio|Dt)$/i, 'Dt')
-    .replace(/^(Josue|Josué|Js)$/i, 'Js')
-    .replace(/^(Juizes|Juízes|Jz)$/i, 'Jz')
-    .replace(/^(Rute|Rt)$/i, 'Rt')
-    .replace(/^(1Samuel|1Sm)$/i, '1Sm')
-    .replace(/^(2Samuel|2Sm)$/i, '2Sm')
-    .replace(/^(1Reis|1Rs)$/i, '1Rs')
-    .replace(/^(2Reis|2Rs)$/i, '2Rs')
-    .replace(/^(1Cronicas|1Cr)$/i, '1Cr')
-    .replace(/^(2Cronicas|2Cr)$/i, '2Cr')
-    .replace(/^(Esdras|Ed)$/i, 'Ed')
-    .replace(/^(Neemias|Ne)$/i, 'Ne')
-    .replace(/^(Ester|Et)$/i, 'Et')
-    .replace(/^(Jó|Jo|Job)$/i, 'Jó')
-    .replace(/^(Salmos|Sl)$/i, 'Sl')
-    .replace(/^(Provérbios|Proverbios|Pv)$/i, 'Pv')
-    .replace(/^(Eclesiastes|Ec)$/i, 'Ec')
-    .replace(/^(Cantares|Ct)$/i, 'Ct')
-    .replace(/^(Isaias|Isaías|Is)$/i, 'Is')
-    .replace(/^(Jeremias|Jr)$/i, 'Jr')
-    .replace(/^(Lamentacoes|Lamentações|Lm)$/i, 'Lm')
-    .replace(/^(Ezequiel|Ez)$/i, 'Ez')
-    .replace(/^(Daniel|Dn)$/i, 'Dn')
-    .replace(/^(Oseias|Oséias|Os)$/i, 'Os')
-    .replace(/^(Joel|Jl)$/i, 'Jl')
-    .replace(/^(Amos|Amós|Am)$/i, 'Am')
-    .replace(/^(Obadias|Ob)$/i, 'Ob')
-    .replace(/^(Jonas|Jn)$/i, 'Jn')
-    .replace(/^(Miqueias|Mq)$/i, 'Mq')
-    .replace(/^(Naum|Na)$/i, 'Na')
-    .replace(/^(Habacuque|Hc)$/i, 'Hc')
-    .replace(/^(Sofonias|Sf)$/i, 'Sf')
-    .replace(/^(Ageu|Ag)$/i, 'Ag')
-    .replace(/^(Zacarias|Zc)$/i, 'Zc')
-    .replace(/^(Malaquias|Ml)$/i, 'Ml')
-    .replace(/^(Mateus|Mt)$/i, 'Mt')
-    .replace(/^(Marcos|Mc)$/i, 'Mc')
-    .replace(/^(Lucas|Lc)$/i, 'Lc')
-    .replace(/^(Joao|João|Jo)$/i, 'Jo')
-    .replace(/^(Atos|At)$/i, 'At')
-    .replace(/^(Romanos|Rm)$/i, 'Rm')
-    .replace(/^(1Corintios|1Co|1Cor)$/i, '1Co')
-    .replace(/^(2Corintios|2Co|2Cor)$/i, '2Co')
-    .replace(/^(Gálatas|Galatas|Gl)$/i, 'Gl')
-    .replace(/^(Efesios|Efésios|Ef)$/i, 'Ef')
-    .replace(/^(Filipenses|Fp)$/i, 'Fp')
-    .replace(/^(Colossenses|Cl)$/i, 'Cl')
-    .replace(/^(1Tessalonicenses|1Ts)$/i, '1Ts')
-    .replace(/^(2Tessalonicenses|2Ts)$/i, '2Ts')
-    .replace(/^(1Timoteo|1Tm)$/i, '1Tm')
-    .replace(/^(2Timoteo|2Tm)$/i, '2Tm')
-    .replace(/^(Tito|Tt)$/i, 'Tt')
-    .replace(/^(Filemom|Fm)$/i, 'Fm')
-    .replace(/^(Hebreus|Hb)$/i, 'Hb')
-    .replace(/^(Tiago|Tg)$/i, 'Tg')
-    .replace(/^(1Pedro|1Pe)$/i, '1Pe')
-    .replace(/^(2Pedro|2Pe)$/i, '2Pe')
-    .replace(/^(1Joao|1João|1Jo)$/i, '1Jo')
-    .replace(/^(2Joao|2João|2Jo)$/i, '2Jo')
-    .replace(/^(3Joao|3João|3Jo)$/i, '3Jo')
-    .replace(/^(Judas|Jd)$/i, 'Jd')
-    .replace(/^(Apocalipse|Ap)$/i, 'Ap');
-}
-
-  function criarTooltip() {
-    const tooltip = document.createElement('div');
-    tooltip.id = 'versiculo-tooltip';
-    Object.assign(tooltip.style, {
-      position: 'absolute',
-      maxWidth: '300px',
-      background: '#fff',
-      border: '1px solid #ccc',
-      padding: '10px',
-      boxShadow: '2px 2px 10px rgba(0,0,0,0.2)',
-      display: 'none',
-      zIndex: 9999,
-      fontSize: '14px',
-      lineHeight: '1.4',
-      borderRadius: '8px',
-      whiteSpace: 'pre-wrap'
-    });
-    document.body.appendChild(tooltip);
-    return tooltip;
-  }
-
-  const tooltip = criarTooltip();
-
-  function mostrarTooltip(texto, x, y) {
-    tooltip.innerText = texto;
-    tooltip.style.left = `${x + 10}px`;
-    tooltip.style.top = `${y + 10}px`;
-    tooltip.style.display = 'block';
-  }
-
-  function esconderTooltip() {
-    tooltip.style.display = 'none';
-  }
-
-  function buscarVersiculo(bibliaJson, livroAbrev, capitulo, versiculo) {
-    const livro = bibliaJson.find(l => l.abbrev.toLowerCase() === livroAbrev.toLowerCase());
-    if (!livro) return null;
-    const cap = livro.chapters[parseInt(capitulo) - 1];
-    if (!cap || !cap[parseInt(versiculo) - 1]) return null;
-    return cap[parseInt(versiculo) - 1];
-  }
-
-  function buscarIntervalo(bibliaJson, livroAbrev, capitulo, versIni, versFim) {
-    const livro = bibliaJson.find(l => l.abbrev.toLowerCase() === livroAbrev.toLowerCase());
-    if (!livro) return null;
-    const cap = livro.chapters[parseInt(capitulo) - 1];
-    if (!cap) return null;
-    let texto = '';
-    for (let i = parseInt(versIni); i <= parseInt(versFim); i++) {
-      if (cap[i - 1]) texto += `${i}. ${cap[i - 1]} `;
-    }
-    return texto.trim();
-  }
-
-  function processarTexto(bibliaJson) {
-    const elementos = document.querySelectorAll('p, span, div, li, h1, h2, h3');
-    elementos.forEach(el => {
-      if (!el.children.length && regexBiblia.test(el.innerHTML)) {
-        el.innerHTML = el.innerHTML.replace(regexBiblia, (match, livro, cap, verIni, verFim) => {
-          const abrev = normalizarLivro(livro);
-          let texto = '';
-          if (verFim) {
-            texto = buscarIntervalo(bibliaJson, abrev, cap, verIni, verFim) || 'Versículo não encontrado';
-          } else {
-            texto = buscarVersiculo(bibliaJson, abrev, cap, verIni) || 'Versículo não encontrado';
-          }
-          return `<a href="javascript:void(0)" class="versiculo-link" data-texto="${texto.replace(/"/g, '&quot;')}">${match}</a>`;
-        });
+  // Cria objeto de busca por Livro.Cap.Vers
+  const bibleData = {};
+  for (const book of data) {
+    const nomeLivro = book.name || book.abbrev;
+    for (let cap = 0; cap < book.chapters.length; cap++) {
+      const chapter = book.chapters[cap];
+      for (let ver = 0; ver < chapter.length; ver++) {
+        const key = `${book.abbrev}.${cap + 1}.${ver + 1}`;
+        bibleData[key] = chapter[ver];
       }
-    });
-
-    document.querySelectorAll('.versiculo-link').forEach(link => {
-      link.addEventListener('mouseover', e => {
-        mostrarTooltip(e.target.getAttribute('data-texto'), e.pageX, e.pageY);
-      });
-      link.addEventListener('mousemove', e => {
-        tooltip.style.left = `${e.pageX + 10}px`;
-        tooltip.style.top = `${e.pageY + 10}px`;
-      });
-      link.addEventListener('mouseout', esconderTooltip);
-    });
+    }
   }
 
-  fetch(BIBLE_JSON_URL)
-    .then(res => res.json())
-    .then(data => processarTexto(data))
-    .catch(err => console.error('Erro ao carregar a Bíblia:', err));
-});
+  const bookMap = {
+      "Gn":"Gn", "Gênesis":"Gn", "Gen":"Gn",
+      "Êx":"Êx", "Ex":"Êx", "Êxodo":"Êx", "Êxo":"Êx",
+      "Lv":"Lv", "Levítico":"Lv", "Lev":"Lv",
+      "Nm":"Nm", "Números":"Nm","Num":"Nm",
+      "Dt":"Dt", "Deuteronômio":"Dt",
+      "Js":"Js", "Josué":"Js",
+      "Jz":"Jz", "Juízes":"Jz",
+      "Rt":"Rt", "Rute":"Rt",
+      "1Sm":"1Sm", "1 Samuel":"1Sm", "1Sam":"1Sm", "1 Sm":"1Sm",
+      "2Sm":"2Sm", "2 Samuel":"2Sm", "2Sam":"2Sm", "2 Sm":"2Sm",
+      "1Rs":"1Rs", "1 Reis":"1Rs", "1Reis":"1Rs", "1 Rs":"1Rs",
+      "2Rs":"2Rs", "2 Reis":"2Rs", "2Reis":"2Rs", "2 Rs":"2Rs",
+      "1Cr":"1Cr", "1 Crônicas":"1Cr", "1Crônicas":"1Cr", "1 Cr":"1Cr", "1Cro":"1Cr", "1 Cro":"1Cr",
+      "2Cr":"2Cr", "2 Crônicas":"2Cr", "2Crônicas":"2Cr", "2 Cr":"2Cr", "2Cro":"2Cr", "2 Cro":"2Cr",
+      "Ed":"Ed", "Esdras":"Ed", "Esd":"Ed",
+      "Ne":"Ne", "Neemias":"Ne", "Nee":"Ne",
+      "Et":"Et", "Ester":"Et", "Est":"Et",
+      "Jó":"Jó",
+      "Sl":"Sl", "Salmos":"Sl", "Salmo":"Sl",
+      "Pv":"Pv", "Provérbios":"Pv", "Prov":"Pv",
+      "Ec":"Ec", "Eclesiastes":"Ec",
+      "Ct":"Ct", "Cantares":"Ct", "Cânticos":"Ct",
+      "Is":"Is", "Isaías":"Is", "Isa":"Is",
+      "Jr":"Jr", "Jeremias":"Jr", "Jer":"Jr",
+      "Lm":"Lm", "Lamentações":"Lm", "Lam":"Lm",
+      "Ez":"Ez", "Ezequiel":"Ez", "Ezeq":"Ez",
+      "Dn":"Dn", "Daniel":"Dn", "Dan":"Dn",
+      "Os":"Os", "Oseias":"Os",
+      "Jl":"Jl", "Joel":"Jl",
+      "Am":"Am", "Amós":"Am",
+      "Ob":"Ob", "Obadias":"Ob", "Obad":"Ob",
+      "Jn":"Jn", "Jonas":"Jn", "Jon":"Jn",
+      "Mq":"Mq", "Miquéias":"Mq", "Miq":"Mq",
+      "Na":"Na", "Naum":"Na",
+      "Hc":"Hc", "Habacuque":"Hc", "Hab":"Hc",
+      "Sf":"Sf", "Sofonias":"Sf",
+      "Ag":"Ag", "Ageu":"Ag",
+      "Zc":"Zc", "Zacarias":"Zc", "Zac":"Zc",
+      "Ml":"Ml", "Malaquias":"Ml", "Mal":"Ml",
+      "Mt":"Mt", "Mateus":"Mt", "Mat":"Mt",
+      "Mc":"Mc", "Marcos":"Mc",
+      "Lc":"Lc", "Lucas":"Lc", "Luc":"Lc",
+      "Jo":"Jo", "João":"Jo",
+      "At":"At", "Atos":"At",
+      "Rm":"Rm", "Romanos":"Rm", "Rom":"Rm",
+      "1Co":"1Co", "1 Coríntios":"1Co", "1 Cor":"1Co", "1Coríntios":"1Co",
+      "2Co":"2Co", "2 Coríntios":"2Co", "2 Cor":"2Co", "2Coríntios":"2Co",
+      "Gl":"Gl", "Gálatas":"Gl", "Gál":"Gl",
+      "Ef":"Ef", "Efésios":"Ef", "Efé":"Ef",
+      "Fp":"Fp", "Filipenses":"Fp", "Filip":"Fp",
+      "Cl":"Cl", "Colossenses":"Cl",
+      "1Ts":"1Ts", "1 Tessalonicenses":"1Ts", "1Tess":"1Ts", "1 Tess":"1Ts",
+      "2Ts":"2Ts", "2 Tessalonicenses":"2Ts", "2Tess":"2Ts", "2 Tess":"2Ts",
+      "1Tm":"1Tm", "1 Timóteo":"1Tm", "1Tim":"1Tm", "1 Tim":"1Tm",
+      "2Tm":"2Tm", "2 Timóteo":"2Tm", "2Tim":"2Tm", "2 Tim":"2Tm",
+      "Tt":"Tt", "Tito":"Tt", "Tit":"Tt",
+      "Fm":"Fm", "Filemom":"Fm", "Fil":"Fm",
+      "Hb":"Hb", "Hebreus":"Hb", "Heb":"Hb",
+      "Tg":"Tg", "Tiago":"Tg", "Tiag":"Tg",
+      "1Pe":"1Pe", "1 Pedro":"1Pe", "1Ped":"1Pe", "1 Ped":"1Pe",
+      "2Pe":"2Pe", "2 Pedro":"2Pe", "2Ped":"2Pe", "2 Ped":"2Pe",
+      "1Jo":"1Jo", "1 João":"1Jo", "1 Jo":"1Jo", "1João":"1Jo",
+      "2Jo":"2Jo", "2 João":"2Jo", "2 Jo":"2Jo", "2João":"2Jo",
+      "3Jo":"3Jo", "3 João":"3Jo", "3 Jo":"3Jo", "3João":"3Jo",
+      "Jd":"Jd", "Judas":"Jd", "Jud":"Jd",
+      "Ap":"Ap", "Apocalipse":"Ap", "Apoc":"Ap"
+    };
+
+  const style = document.createElement("style");
+  style.innerHTML = `
+    .bible-ref {
+      border-bottom: 1px dotted #333;
+      cursor: help;
+      position: relative;
+    }
+    .bible-ref:hover::after {
+      content: attr(data-tooltip);
+      white-space: pre-wrap;
+      position: absolute;
+      background: #fefefe;
+      border: 1px solid #ccc;
+      padding: 8px;
+      color: #000;
+      z-index: 999;
+      top: 1.5em;
+      left: 0;
+      min-width: 200px;
+      max-width: 400px;
+      font-size: 14px;
+      box-shadow: 2px 2px 6px rgba(0,0,0,0.15);
+    }
+  `;
+  document.head.appendChild(style);
+
+  const regex = /\b((\d\s?)?[A-Za-zçÇéÉôÔíÍóÓãÃêÊ]+)\s*(\d+)[.:](\d+(?:[-–]\d+)?(?:,\d+(?:[-–]\d+)?)*)\b/g;
+
+  function expandVerses(versePart) {
+    const parts = versePart.split(',');
+    let verses = [];
+    for (const p of parts) {
+      if (p.includes('-')) {
+        const [start, end] = p.split('-').map(Number);
+        for (let v = start; v <= end; v++) verses.push(v);
+      } else {
+        verses.push(Number(p));
+      }
+    }
+    return verses;
+  }
+
+  function normalizeBook(book) {
+    book = book.replace(/\s/g, '');
+    for (const abbr in bookMap) {
+      if (book.toLowerCase().includes(abbr.toLowerCase())) return bookMap[abbr];
+    }
+    return null;
+  }
+
+  function processNode(node) {
+    if (node.nodeType !== 3 || node.parentNode.classList?.contains("bible-ref")) return;
+
+    const text = node.textContent;
+    const matches = [...text.matchAll(regex)];
+    if (matches.length === 0) return;
+
+    const parent = node.parentNode;
+    let lastIndex = 0;
+    const fragment = document.createDocumentFragment();
+
+    for (const match of matches) {
+      const [fullMatch, book, , chapter, verses] = match;
+      const bookAbbr = normalizeBook(book);
+      const index = match.index;
+
+      if (!bookAbbr) continue;
+
+      fragment.appendChild(document.createTextNode(text.slice(lastIndex, index)));
+
+      const span = document.createElement("span");
+      span.className = "bible-ref";
+
+      const verseNumbers = expandVerses(verses);
+      let tooltipText = "";
+
+      for (const v of verseNumbers) {
+        const key = `${bookAbbr}.${chapter}.${v}`;
+        tooltipText += bibleData[key] ? `${bookAbbr} ${chapter}:${v} — ${bibleData[key]}\n` : `${bookAbbr} ${chapter}:${v} — [Não encontrado]\n`;
+      }
+
+      span.setAttribute("data-tooltip", tooltipText.trim());
+      span.textContent = fullMatch;
+      fragment.appendChild(span);
+
+      lastIndex = index + fullMatch.length;
+    }
+
+    fragment.appendChild(document.createTextNode(text.slice(lastIndex)));
+    parent.replaceChild(fragment, node);
+  }
+
+  function walk(node) {
+    if (node.nodeType === 3) {
+      processNode(node);
+    } else {
+      for (const child of [...node.childNodes]) walk(child);
+    }
+  }
+
+  walk(document.body);
+})();
