@@ -1,5 +1,5 @@
 (async () => {
-  const response = await fetch("https://raw.githubusercontent.com/hasneto/BibliaJSON/main/NAA.json");
+  const response = await fetch("https://cdn.jsdelivr.net/gh/hasneto/BibliaJSON@main/NAA.json");
   const data = await response.json();
 
   const bibleData = {};
