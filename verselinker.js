@@ -133,7 +133,7 @@
   `;
   document.head.appendChild(style);
 
-  const regex = /\b((\d\s?)?[A-Za-zÀ-ÿçÇêÊôÔíÍóÓãÃéÉúÚ]+\s?[A-Za-zÀ-ÿçÇêÊôÔíÍóÓãÃéÉúÚ]*?)\s+(\d+)[.:](\d+(?:[-–]\d+)?(?:,\d+(?:[-–]\d+)?)*)\b/g;
+  const regex = /\b((?:[1-3]\s*)?(?:[A-ZÁÉÍÓÚÀÈÌÒÙÂÊÎÔÛÃÕÇa-záéíóúàèìòùâêîôûãõç]{2,}(?:\s+[A-ZÁÉÍÓÚÀÈÌÒÙÂÊÎÔÛÃÕÇa-záéíóúàèìòùâêîôûãõç]{2,})?))\s+(\d{1,3})[:.](\d+(?:[-–]\d+)?(?:,\d+(?:[-–]\d+)?)*)/g;
 
   function processNode(node) {
     if (node.nodeType !== 3 || node.parentNode.classList?.contains("bible-ref")) return;
