@@ -147,7 +147,7 @@
     const fragment = document.createDocumentFragment();
 
     for (const match of matches) {
-      const [fullMatch, book, , chapter, verses] = match;
+      const [fullMatch, book, chapter, verses] = match;
       const bookAbbr = normalizeBook(book);
       const index = match.index;
 
