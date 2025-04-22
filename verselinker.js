@@ -82,7 +82,7 @@
       "Ap":"Ap", "Apocalipse":"Ap", "Apoc":"Ap"
     };
 
-  const bookKeys = Object.keys(bookMap).sort((a, b) => b.length - a.length); // Ordem decrescente por tamanho
+  const bookKeys = Object.keys(bookMap).sort((a, b) => b.length - a.length);
 
   function normalizeBook(name) {
     name = name.trim();
@@ -133,7 +133,8 @@
   `;
   document.head.appendChild(style);
 
-  const regex = /\b((?:[1-3]\s*)?(?:[A-ZÁÉÍÓÚÀÈÌÒÙÂÊÎÔÛÃÕÇa-záéíóúàèìòùâêîôûãõç]{2,})(?:\s+[A-ZÁÉÍÓÚÀÈÌÒÙÂÊÎÔÛÃÕÇa-záéíóúàèìòùâêîôûãõç]{2,})?)\s+(\d{1,3})[:.](\d+(?:[-–]\d+)?(?:,\d+(?:[-–]\d+)?)*)\b/g;
+  // Novo regex: reconhece múltiplos capítulos
+  const regex = /\b((?:[1-3]\s*)?(?:[A-ZÁÉÍÓÚÀÈÌÒÙÂÊÎÔÛÃÕÇa-záéíóúàèìòùâêîôûãõç]{2,}(?:\s+[A-ZÁÉÍÓÚÀÈÌÒÙÂÊÎÔÛÃÕÇa-záéíóúàèìòùâêîôûãõç]{2,})?))\s+(\d{1,3})[:.](\d+(?:[-–]\d+)?(?:,\d+(?:[-–]\d+)?)*)((?:;\s*\d{1,3}[:.](\d+(?:[-–]\d+)?(?:,\d+(?:[-–]\d+)?)*)?)*)/g;
 
   function processNode(node) {
     if (node.nodeType !== 3 || node.parentNode.classList?.contains("bible-ref")) return;
@@ -147,10 +148,9 @@
     const fragment = document.createDocumentFragment();
 
     for (const match of matches) {
-      const [fullMatch, book, chapter, verses] = match;
-      const bookAbbr = normalizeBook(book);
+      const [fullMatch, bookName, chapter, verses, extraChapters] = match;
+      const bookAbbr = normalizeBook(bookName);
       const index = match.index;
-
       if (!bookAbbr) continue;
 
       fragment.appendChild(document.createTextNode(text.slice(lastIndex, index)));
@@ -158,12 +158,25 @@
       const span = document.createElement("span");
       span.className = "bible-ref";
 
-      const verseNumbers = expandVerses(verses);
-      let tooltipText = "";
+      const references = [{ chapter: Number(chapter), verses }];
 
-      for (const v of verseNumbers) {
-        const key = `${bookAbbr}.${chapter}.${v}`;
-        tooltipText += bibleData[key] ? `${bookAbbr} ${chapter}:${v} — ${bibleData[key]}\n` : `${bookAbbr} ${chapter}:${v} — [Não encontrado]\n`;
+      if (extraChapters) {
+        const extras = extraChapters.split(";").filter(s => s.trim() !== "");
+        for (const extra of extras) {
+          const [ch, vs] = extra.split(/[:.]/);
+          if (ch && vs) {
+            references.push({ chapter: Number(ch.trim()), verses: vs.trim() });
+          }
+        }
+      }
+
+      let tooltipText = "";
+      for (const ref of references) {
+        const verseNumbers = expandVerses(ref.verses);
+        for (const v of verseNumbers) {
+          const key = `${bookAbbr}.${ref.chapter}.${v}`;
+          tooltipText += bibleData[key] ? `${bookAbbr} ${ref.chapter}:${v} — ${bibleData[key]}\n` : `${bookAbbr} ${ref.chapter}:${v} — [Não encontrado]\n`;
+        }
       }
 
       span.setAttribute("data-tooltip", tooltipText.trim());
