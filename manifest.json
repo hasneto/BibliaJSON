@@ -1,0 +1,36 @@
+{
+  "repo": "hasneto/BibliaJSON",
+  "updated_at": "2025-12-12",
+  "versions": [
+    {
+      "id": "acf",
+      "name": "Almeida Corrigida Fiel",
+      "file": "ACF.json",
+      "language": "pt-BR"
+    },
+    {
+      "id": "kja",
+      "name": "King James (PT)",
+      "file": "KJA.json",
+      "language": "pt-BR"
+    },
+    {
+      "id": "naa",
+      "name": "Nova Almeida Atualizada",
+      "file": "NAA.json",
+      "language": "pt-BR"
+    },
+    {
+      "id": "nvi",
+      "name": "Nova Versão Internacional",
+      "file": "NVI.json",
+      "language": "pt-BR"
+    },
+    {
+      "id": "nvt",
+      "name": "Nova Versão Transformadora",
+      "file": "NVT.json",
+      "language": "pt-BR"
+    }
+  ]
+}
