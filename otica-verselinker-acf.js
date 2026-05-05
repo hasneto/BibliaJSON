@@ -383,11 +383,7 @@
 
     const normalized = normalizeBookName(original);
 
-    return (
-      BOOK_ALIASES[original] ||
-      BOOK_ALIASES[normalized] ||
-      null
-    );
+    return BOOK_ALIASES[original] || BOOK_ALIASES[normalized] || null;
   }
 
   function buildReferenceRegex() {
@@ -537,19 +533,19 @@
 
     return new RegExp(
       "(^|[^\\p{L}\\p{N}_])" +
-      "(" + bookPattern + ")" +
-      "\\.?" +
-      "\\s*" +
-      "(\\d{1,3})" +
-      "(?:" +
-        "\\s*[:\\.]\\s*" +
-        "(" +
-          "\\d{1,3}" +
-          "(?:\\s*[-–—]\\s*\\d{1,3})?" +
-          "(?:\\s*,\\s*\\d{1,3}(?:\\s*[-–—]\\s*\\d{1,3})?)*" +
-        ")" +
-      ")?" +
-      "(?![\\p{L}\\p{N}_])",
+        "(" + bookPattern + ")" +
+        "\\.?" +
+        "\\s*" +
+        "(\\d{1,3})" +
+        "(?:" +
+          "\\s*[:\\.]\\s*" +
+          "(" +
+            "\\d{1,3}" +
+            "(?:\\s*[-–—]\\s*\\d{1,3})?" +
+            "(?:\\s*,\\s*\\d{1,3}(?:\\s*[-–—]\\s*\\d{1,3})?)*" +
+          ")" +
+        ")?" +
+        "(?![\\p{L}\\p{N}_])",
       "giu"
     );
   }
@@ -655,7 +651,7 @@
     return (
       "<div class='otica-bible-tooltip-title'>" +
       escapeHtml(label) +
-      " <span>— " + escapeHtml(CONFIG.version) + "</span>" +
+      " <span>" + escapeHtml(CONFIG.version) + "</span>" +
       "</div>" +
       "<div class='otica-bible-tooltip-body'>" +
       versesHtml +
@@ -762,7 +758,7 @@
         opacity: 0.9;
       }
 
-     .otica-bible-tooltip-body {
+      .otica-bible-tooltip-body {
         padding: 10px 12px;
         overflow-y: auto;
         -webkit-overflow-scrolling: touch;
@@ -999,7 +995,7 @@
       }, 120);
     });
 
-        document.addEventListener("touchstart", function (event) {
+    document.addEventListener("touchstart", function (event) {
       const tooltipTarget = event.target.closest(".otica-bible-tooltip");
 
       if (tooltipTarget) {
@@ -1016,7 +1012,6 @@
       event.preventDefault();
       showTooltip(target);
     }, { passive: false });
-
   }
 
   async function init() {
