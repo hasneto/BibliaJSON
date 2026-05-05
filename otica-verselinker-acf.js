@@ -732,9 +732,9 @@
       .otica-bible-tooltip {
         position: absolute;
         z-index: 999999;
-        width: min(340px, calc(100vw - 24px));
-        max-height: 360px;
-        overflow-y: auto;
+        width: min(390px, calc(100vw - 24px));
+        max-height: min(420px, calc(100vh - 32px));
+        overflow: hidden;
         background: #ffffff;
         color: #222222;
         border: 1px solid #d4d4d4;
@@ -743,6 +743,8 @@
         font-family: Arial, sans-serif;
         font-size: 14px;
         line-height: 1.45;
+        display: flex;
+        flex-direction: column;
       }
 
       .otica-bible-tooltip-title {
