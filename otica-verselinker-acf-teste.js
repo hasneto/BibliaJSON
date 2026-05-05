@@ -929,9 +929,14 @@
 
           const inheritedBook = lastBibleRef.getAttribute("data-book");
 
-          if (!inheritedBook) {
-            return;
-          }
+if (!inheritedBook) {
+  return;
+}
+
+const inheritedBookName =
+  bibleByAbbrev[inheritedBook]?.name ||
+  lastBibleRef.getAttribute("data-label")?.split(/\s+/)[0] ||
+  inheritedBook;
 
           const continuationRegex =
             /([;；]\s*)(\d{1,3})\s*[:.]\s*(\d{1,3}(?:\s*[-–—]\s*\d{1,3})?(?:\s*,\s*\d{1,3}(?:\s*[-–—]\s*\d{1,3})?)*)/g;
@@ -969,9 +974,9 @@
             span.className = "otica-bible-ref";
             span.textContent = referenceText;
             span.setAttribute("data-book", inheritedBook);
-            span.setAttribute("data-chapter", String(chapter));
-            span.setAttribute("data-verses", rawVerses.replace(/\s+/g, ""));
-            span.setAttribute("data-label", referenceText);
+span.setAttribute("data-chapter", String(chapter));
+span.setAttribute("data-verses", rawVerses.replace(/\s+/g, ""));
+span.setAttribute("data-label", inheritedBookName + " " + referenceText);
 
             fragment.appendChild(span);
 
