@@ -476,6 +476,21 @@
     return names[abbrev] || abbrev;
   }
 
+    function buildFullReferenceLabel(abbrev, chapter, verses) {
+    const bookName = getBookDisplayName(abbrev);
+    const cleanVerses = String(verses || "").replace(/\s+/g, "");
+
+    if (SINGLE_CHAPTER_BOOKS.has(abbrev) && chapter === 1 && cleanVerses) {
+      return bookName + " " + cleanVerses;
+    }
+
+    if (cleanVerses) {
+      return bookName + " " + chapter + ":" + cleanVerses;
+    }
+
+    return bookName + " " + chapter;
+  }
+
   function buildReferenceRegex() {
     const bookNames = [
       "1\\s*Pedro",
@@ -956,7 +971,7 @@
       span.setAttribute("data-book", abbrev);
       span.setAttribute("data-chapter", String(chapter));
       span.setAttribute("data-verses", verses.replace(/\s+/g, ""));
-      span.setAttribute("data-label", referenceText);
+      span.setAttribute("data-label", buildFullReferenceLabel(abbrev, chapter, verses));
 
       fragment.appendChild(span);
 
@@ -1053,9 +1068,9 @@ const inheritedBookName =
             span.className = "otica-bible-ref";
             span.textContent = referenceText;
             span.setAttribute("data-book", inheritedBook);
-span.setAttribute("data-chapter", String(chapter));
-span.setAttribute("data-verses", rawVerses.replace(/\s+/g, ""));
-span.setAttribute("data-label", inheritedBookName + " " + referenceText);
+            span.setAttribute("data-chapter", String(chapter));
+            span.setAttribute("data-verses", rawVerses.replace(/\s+/g, ""));
+            span.setAttribute("data-label", buildFullReferenceLabel(inheritedBook, chapter, rawVerses));
 
             fragment.appendChild(span);
 
