@@ -349,6 +349,14 @@
     ".otica-bible-tooltip"
   ].join(",");
 
+    const SINGLE_CHAPTER_BOOKS = new Set([
+    "ob",
+    "fm",
+    "2jo",
+    "3jo",
+    "jd"
+  ]);
+  
   let bibleByAbbrev = {};
   let tooltip = null;
 
@@ -834,14 +842,20 @@
       const referenceStart = match.index + prefix.length;
       const referenceText = fullMatch.slice(prefix.length);
 
-      const abbrev = getBookAbbrev(rawBook);
-      const chapter = parseInt(rawChapter, 10);
+            const abbrev = getBookAbbrev(rawBook);
+      let chapter = parseInt(rawChapter, 10);
+      let verses = rawVerses;
 
       if (!abbrev || !Number.isInteger(chapter)) {
         continue;
       }
 
-      const passage = getPassage(abbrev, chapter, rawVerses);
+      if (SINGLE_CHAPTER_BOOKS.has(abbrev) && !verses) {
+        verses = String(chapter);
+        chapter = 1;
+      }
+
+      const passage = getPassage(abbrev, chapter, verses);
 
       if (!passage) {
         continue;
@@ -856,9 +870,8 @@
       span.textContent = referenceText;
       span.setAttribute("data-book", abbrev);
       span.setAttribute("data-chapter", String(chapter));
-      span.setAttribute("data-verses", rawVerses.replace(/\s+/g, ""));
+      span.setAttribute("data-verses", verses.replace(/\s+/g, ""));
       span.setAttribute("data-label", referenceText);
-
       fragment.appendChild(span);
 
       lastIndex = match.index + fullMatch.length;
