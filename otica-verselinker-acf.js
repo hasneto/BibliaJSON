@@ -1,8 +1,6 @@
 /*
  * Ótica Reformada VerseLinker - ACF
- * Versão inicial funcional
- *
- * Reconhece referências bíblicas em postagens do Blogger
+ * Reconhece referências bíblicas nas postagens do Blogger
  * e exibe tooltip usando o ACF.json hospedado no GitHub.
  */
 
@@ -14,7 +12,7 @@
   const CONFIG = {
     bibleJsonUrl:
       currentScript?.getAttribute("data-bible-json") ||
-      "https://raw.githubusercontent.com/hasneto/BibliaJSON/main/ACF.json",
+      "https://cdn.jsdelivr.net/gh/hasneto/BibliaJSON@main/ACF.json",
 
     version:
       currentScript?.getAttribute("data-version") ||
@@ -100,7 +98,6 @@
     "ester": "et",
 
     "jó": "jó",
-    "jo": "jó",
     "jô": "jó",
 
     "sl": "sl",
@@ -260,7 +257,6 @@
     "fm": "fm",
     "filemom": "fm",
     "filemon": "fm",
-    "filemom": "fm",
     "filêmon": "fm",
 
     "hb": "hb",
@@ -330,7 +326,7 @@
     "time"
   ]);
 
-    const SKIP_SELECTOR = [
+  const SKIP_SELECTOR = [
     ".sidebar",
     ".sidebar-wrapper",
     "#sidebar",
@@ -357,10 +353,6 @@
     if (CONFIG.debug) {
       console.log("[Ótica VerseLinker]", ...args);
     }
-  }
-
-  function escapeRegex(text) {
-    return text.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
   }
 
   function escapeHtml(text) {
@@ -398,7 +390,7 @@
     );
   }
 
-    function buildReferenceRegex() {
+  function buildReferenceRegex() {
     const bookNames = [
       "1\\s*Pedro",
       "2\\s*Pedro",
@@ -417,6 +409,26 @@
       "2\\s*Reis",
       "1\\s*Cr[oô]nicas",
       "2\\s*Cr[oô]nicas",
+
+      "1\\s*Pe",
+      "2\\s*Pe",
+      "1Pe",
+      "2Pe",
+
+      "1\\s*Co",
+      "2\\s*Co",
+      "1Co",
+      "2Co",
+
+      "1\\s*Ts",
+      "2\\s*Ts",
+      "1Ts",
+      "2Ts",
+
+      "1\\s*Tm",
+      "2\\s*Tm",
+      "1Tm",
+      "2Tm",
 
       "G[eê]nesis",
       "Gn",
@@ -540,27 +552,6 @@
       "(?![\\p{L}\\p{N}_])",
       "giu"
     );
-  });
-
-    const bookPattern = aliases.join("|");
-
-    return new RegExp(
-      "(^|[^\\p{L}\\p{N}_])" +
-      "(" + bookPattern + ")" +
-      "\\.?" +
-      "\\s*" +
-      "(\\d{1,3})" +
-      "(?:" +
-        "\\s*[:\\.]\\s*" +
-        "(" +
-          "\\d{1,3}" +
-          "(?:\\s*[-–—]\\s*\\d{1,3})?" +
-          "(?:\\s*,\\s*\\d{1,3}(?:\\s*[-–—]\\s*\\d{1,3})?)*" +
-        ")" +
-      ")?" +
-      "(?![\\p{L}\\p{N}_])",
-      "giu"
-    );
   }
 
   function parseVerseSpec(verseSpec, maxVerse) {
@@ -593,6 +584,7 @@
           }
         } else {
           const verse = parseInt(part, 10);
+
           if (
             Number.isInteger(verse) &&
             verse >= 1 &&
@@ -610,6 +602,7 @@
     const book = bibleByAbbrev[abbrev];
 
     if (!book) {
+      log("Livro não encontrado no JSON:", abbrev);
       return null;
     }
 
@@ -617,6 +610,7 @@
     const chapter = book.chapters[chapterIndex];
 
     if (!Array.isArray(chapter)) {
+      log("Capítulo não encontrado:", abbrev, chapterNumber);
       return null;
     }
 
@@ -633,6 +627,7 @@
     }
 
     if (!verseNumbers.length) {
+      log("Versículos não encontrados:", abbrev, chapterNumber, verseSpec);
       return null;
     }
 
@@ -831,8 +826,7 @@
       const rawChapter = match[3] || "";
       const rawVerses = match[4] || "";
 
-      const matchStart = match.index;
-      const referenceStart = matchStart + prefix.length;
+      const referenceStart = match.index + prefix.length;
       const referenceText = fullMatch.slice(prefix.length);
 
       const abbrev = getBookAbbrev(rawBook);
@@ -879,24 +873,78 @@
   function processPage() {
     const referenceRegex = buildReferenceRegex();
 
-    const walker = document.createTreeWalker(
-      document.body,
-      NodeFilter.SHOW_TEXT,
-      {
-        acceptNode(node) {
-          return shouldSkipNode(node)
-            ? NodeFilter.FILTER_REJECT
-            : NodeFilter.FILTER_ACCEPT;
+    const contentSelectors = [
+      ".post-body",
+      ".entry-content",
+      ".post",
+      "article",
+      "#Blog1",
+      ".blog-posts"
+    ];
+
+    let roots = [];
+
+    contentSelectors.forEach(selector => {
+      document.querySelectorAll(selector).forEach(element => {
+        if (!roots.includes(element)) {
+          roots.push(element);
         }
-      }
-    );
+      });
+    });
+
+    if (!roots.length) {
+      roots = [document.body];
+    }
 
     const textNodes = [];
-    let node;
 
-    while ((node = walker.nextNode())) {
-      textNodes.push(node);
-    }
+    roots.forEach(root => {
+      const walker = document.createTreeWalker(
+        root,
+        NodeFilter.SHOW_TEXT,
+        {
+          acceptNode(node) {
+            const parent = node.parentElement;
+
+            if (!parent) {
+              return NodeFilter.FILTER_REJECT;
+            }
+
+            const tag = parent.tagName.toLowerCase();
+
+            if (SKIP_TAGS.has(tag)) {
+              return NodeFilter.FILTER_REJECT;
+            }
+
+            if (parent.closest(".otica-bible-tooltip")) {
+              return NodeFilter.FILTER_REJECT;
+            }
+
+            if (
+              parent.closest(
+                "script, style, iframe, noscript, textarea, input, select, option, code, pre"
+              )
+            ) {
+              return NodeFilter.FILTER_REJECT;
+            }
+
+            if (!node.nodeValue || !node.nodeValue.trim()) {
+              return NodeFilter.FILTER_REJECT;
+            }
+
+            return NodeFilter.FILTER_ACCEPT;
+          }
+        }
+      );
+
+      let node;
+
+      while ((node = walker.nextNode())) {
+        if (!textNodes.includes(node)) {
+          textNodes.push(node);
+        }
+      }
+    });
 
     let total = 0;
 
@@ -904,6 +952,8 @@
       total += processTextNode(textNode, referenceRegex);
     });
 
+    console.log("Ótica Reformada VerseLinker ACF: áreas analisadas:", roots.length);
+    console.log("Ótica Reformada VerseLinker ACF: nós de texto analisados:", textNodes.length);
     console.log("Ótica Reformada VerseLinker ACF: referências processadas:", total);
   }
 
