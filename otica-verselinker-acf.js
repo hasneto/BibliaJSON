@@ -754,6 +754,7 @@
         font-weight: 700;
         text-align: center;
         border-radius: 8px 8px 0 0;
+        flex: 0 0 auto;
       }
 
       .otica-bible-tooltip-title span {
@@ -761,8 +762,11 @@
         opacity: 0.9;
       }
 
-      .otica-bible-tooltip-body {
+     .otica-bible-tooltip-body {
         padding: 10px 12px;
+        overflow-y: auto;
+        -webkit-overflow-scrolling: touch;
+        overscroll-behavior: contain;
       }
 
       .otica-bible-tooltip-verse {
@@ -995,7 +999,13 @@
       }, 120);
     });
 
-    document.addEventListener("touchstart", function (event) {
+        document.addEventListener("touchstart", function (event) {
+      const tooltipTarget = event.target.closest(".otica-bible-tooltip");
+
+      if (tooltipTarget) {
+        return;
+      }
+
       const target = event.target.closest(".otica-bible-ref");
 
       if (!target) {
@@ -1005,9 +1015,8 @@
 
       event.preventDefault();
       showTooltip(target);
-    });
+    }, { passive: false });
 
-    document.addEventListener("scroll", removeTooltip, { passive: true });
   }
 
   async function init() {
