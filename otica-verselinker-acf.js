@@ -806,7 +806,7 @@
     return false;
   }
 
-  function processTextNode(node, referenceRegex) {
+    function processTextNode(node, referenceRegex) {
     if (shouldSkipNode(node)) {
       return 0;
     }
@@ -819,11 +819,15 @@
 
     referenceRegex.lastIndex = 0;
 
+    const references = [];
     let match;
-    let lastIndex = 0;
-    let found = 0;
-    const fragment = document.createDocumentFragment();
 
+    /*
+     * 1) Primeiro reconhece as referências completas:
+     *    Rm 3:21-26
+     *    Ef 2:8-9
+     *    Mc 4:12
+     */
     while ((match = referenceRegex.exec(text)) !== null) {
       const fullMatch = match[0];
       const prefix = match[1] || "";
@@ -832,6 +836,7 @@
       const rawVerses = match[4] || "";
 
       const referenceStart = match.index + prefix.length;
+      const referenceEnd = match.index + fullMatch.length;
       const referenceText = fullMatch.slice(prefix.length);
 
       const abbrev = getBookAbbrev(rawBook);
@@ -847,23 +852,109 @@
         continue;
       }
 
+      references.push({
+        start: referenceStart,
+        end: referenceEnd,
+        text: referenceText,
+        abbrev,
+        chapter,
+        verses: rawVerses
+      });
+    }
+
+    /*
+     * 2) Depois reconhece referências sem livro,
+     *    herdando o último livro citado no mesmo trecho:
+     *
+     *    Rm 3:21-26; 4:5-8; 8:1
+     *                 ^^^^^  ^^^
+     *
+     *    Mc 4:12; At 2:38; 20:21
+     *                          ^^^^^
+     */
+    const fullReferences = references.slice().sort((a, b) => a.start - b.start);
+
+    fullReferences.forEach((currentRef, index) => {
+      const segmentStart = currentRef.end;
+      const segmentEnd =
+        index + 1 < fullReferences.length
+          ? fullReferences[index + 1].start
+          : text.length;
+
+      const segment = text.slice(segmentStart, segmentEnd);
+
+      const continuationRegex = /([;；]\s*)(\d{1,3})\s*[:.]\s*(\d{1,3}(?:\s*[-–—]\s*\d{1,3})?(?:\s*,\s*\d{1,3}(?:\s*[-–—]\s*\d{1,3})?)*)/g;
+
+      let continuationMatch;
+
+      while ((continuationMatch = continuationRegex.exec(segment)) !== null) {
+        const continuationPrefix = continuationMatch[1] || "";
+        const rawChapter = continuationMatch[2] || "";
+        const rawVerses = continuationMatch[3] || "";
+
+        const chapter = parseInt(rawChapter, 10);
+
+        if (!Number.isInteger(chapter)) {
+          continue;
+        }
+
+        const passage = getPassage(currentRef.abbrev, chapter, rawVerses);
+
+        if (!passage) {
+          continue;
+        }
+
+        const referenceStart =
+          segmentStart + continuationMatch.index + continuationPrefix.length;
+
+        const referenceEnd =
+          segmentStart + continuationMatch.index + continuationMatch[0].length;
+
+        const referenceText = text.slice(referenceStart, referenceEnd);
+
+        references.push({
+          start: referenceStart,
+          end: referenceEnd,
+          text: referenceText,
+          abbrev: currentRef.abbrev,
+          chapter,
+          verses: rawVerses
+        });
+      }
+    });
+
+    if (!references.length) {
+      return 0;
+    }
+
+    references.sort((a, b) => a.start - b.start);
+
+    let lastIndex = 0;
+    let found = 0;
+    const fragment = document.createDocumentFragment();
+
+    references.forEach(ref => {
+      if (ref.start < lastIndex) {
+        return;
+      }
+
       fragment.appendChild(
-        document.createTextNode(text.slice(lastIndex, referenceStart))
+        document.createTextNode(text.slice(lastIndex, ref.start))
       );
 
       const span = document.createElement("span");
       span.className = "otica-bible-ref";
-      span.textContent = referenceText;
-      span.setAttribute("data-book", abbrev);
-      span.setAttribute("data-chapter", String(chapter));
-      span.setAttribute("data-verses", rawVerses.replace(/\s+/g, ""));
-      span.setAttribute("data-label", referenceText);
+      span.textContent = ref.text;
+      span.setAttribute("data-book", ref.abbrev);
+      span.setAttribute("data-chapter", String(ref.chapter));
+      span.setAttribute("data-verses", ref.verses.replace(/\s+/g, ""));
+      span.setAttribute("data-label", ref.text);
 
       fragment.appendChild(span);
 
-      lastIndex = match.index + fullMatch.length;
+      lastIndex = ref.end;
       found++;
-    }
+    });
 
     if (!found) {
       return 0;
