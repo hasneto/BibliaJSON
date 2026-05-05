@@ -398,14 +398,149 @@
     );
   }
 
-  function buildReferenceRegex() {
-    const aliases = Object.keys(BOOK_ALIASES)
-      .sort((a, b) => b.length - a.length)
-      .map(alias => {
-        return escapeRegex(alias)
-          .replace(/\\ /g, "\\s*")
-          .replace(/ /g, "\\s*");
-      });
+    function buildReferenceRegex() {
+    const bookNames = [
+      "1\\s*Pedro",
+      "2\\s*Pedro",
+      "1\\s*Jo[aã]o",
+      "2\\s*Jo[aã]o",
+      "3\\s*Jo[aã]o",
+      "1\\s*Cor[ií]ntios",
+      "2\\s*Cor[ií]ntios",
+      "1\\s*Tessalonicenses",
+      "2\\s*Tessalonicenses",
+      "1\\s*Tim[oó]teo",
+      "2\\s*Tim[oó]teo",
+      "1\\s*Samuel",
+      "2\\s*Samuel",
+      "1\\s*Reis",
+      "2\\s*Reis",
+      "1\\s*Cr[oô]nicas",
+      "2\\s*Cr[oô]nicas",
+
+      "G[eê]nesis",
+      "Gn",
+      "Êxodo",
+      "Exodo",
+      "Ex",
+      "Lev[ií]tico",
+      "Lv",
+      "N[uú]meros",
+      "Nm",
+      "Deuteron[oô]mio",
+      "Dt",
+      "Josu[eé]",
+      "Js",
+      "Ju[ií]zes",
+      "Jz",
+      "Rute",
+      "Rt",
+      "Esdras",
+      "Ed",
+      "Neemias",
+      "Ne",
+      "Ester",
+      "Et",
+      "J[oó]",
+      "Salmos?",
+      "Sl",
+      "Prov[eé]rbios",
+      "Pv",
+      "Eclesiastes",
+      "Ec",
+      "Cantares",
+      "Ct",
+      "Isa[ií]as",
+      "Is",
+      "Jeremias",
+      "Jr",
+      "Lamenta[cç][oõ]es",
+      "Lm",
+      "Ezequiel",
+      "Ez",
+      "Daniel",
+      "Dn",
+      "Os[eé]ias",
+      "Os",
+      "Joel",
+      "Jl",
+      "Am[oó]s",
+      "Am",
+      "Obadias",
+      "Ob",
+      "Jonas",
+      "Jn",
+      "Miqu[eé]ias",
+      "Mq",
+      "Naum",
+      "Na",
+      "Habacuque",
+      "Hc",
+      "Sofonias",
+      "Sf",
+      "Ageu",
+      "Ag",
+      "Zacarias",
+      "Zc",
+      "Malaquias",
+      "Ml",
+
+      "Mateus",
+      "Mt",
+      "Marcos",
+      "Mc",
+      "Lucas",
+      "Lc",
+      "Jo[aã]o",
+      "Jo",
+      "Atos",
+      "At",
+      "Romanos",
+      "Rm",
+      "G[aá]latas",
+      "Gl",
+      "Ef[eé]sios",
+      "Ef",
+      "Filipenses",
+      "Fp",
+      "Colossenses",
+      "Cl",
+      "Tito",
+      "Tt",
+      "Filemom",
+      "Filemon",
+      "Fil[eê]mon",
+      "Fm",
+      "Hebreus",
+      "Hb",
+      "Tiago",
+      "Tg",
+      "Judas",
+      "Jd",
+      "Apocalipse",
+      "Ap"
+    ];
+
+    const bookPattern = bookNames.join("|");
+
+    return new RegExp(
+      "(^|[^\\p{L}\\p{N}_])" +
+      "(" + bookPattern + ")" +
+      "\\.?" +
+      "\\s*" +
+      "(\\d{1,3})" +
+      "(?:" +
+        "\\s*[:\\.]\\s*" +
+        "(" +
+          "\\d{1,3}" +
+          "(?:\\s*[-–—]\\s*\\d{1,3})?" +
+          "(?:\\s*,\\s*\\d{1,3}(?:\\s*[-–—]\\s*\\d{1,3})?)*" +
+        ")" +
+      ")?" +
+      "(?![\\p{L}\\p{N}_])",
+      "giu"
+    );
+  });
 
     const bookPattern = aliases.join("|");
 
