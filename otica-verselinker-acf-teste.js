@@ -888,6 +888,151 @@
     return found;
   }
 
+    function findPreviousBibleRefInSameParent(textNode) {
+    const parent = textNode.parentNode;
+
+    if (!parent) {
+      return null;
+    }
+
+    let previous = textNode.previousSibling;
+
+    while (previous) {
+      if (
+        previous.nodeType === Node.ELEMENT_NODE &&
+        previous.classList &&
+        previous.classList.contains("otica-bible-ref")
+      ) {
+        return previous;
+      }
+
+      if (previous.nodeType === Node.ELEMENT_NODE) {
+        const refs = previous.querySelectorAll
+          ? previous.querySelectorAll(".otica-bible-ref")
+          : [];
+
+        if (refs && refs.length) {
+          return refs[refs.length - 1];
+        }
+      }
+
+      previous = previous.previousSibling;
+    }
+
+    return null;
+  }
+
+  function processInheritedReferences(root) {
+    const walker = document.createTreeWalker(
+      root,
+      NodeFilter.SHOW_TEXT,
+      {
+        acceptNode(node) {
+          if (shouldSkipNode(node)) {
+            return NodeFilter.FILTER_REJECT;
+          }
+
+          if (!node.nodeValue || !node.nodeValue.trim()) {
+            return NodeFilter.FILTER_REJECT;
+          }
+
+          if (!/[;；]\s*\d{1,3}\s*[:.]\s*\d{1,3}/.test(node.nodeValue)) {
+            return NodeFilter.FILTER_REJECT;
+          }
+
+          return NodeFilter.FILTER_ACCEPT;
+        }
+      }
+    );
+
+    const textNodes = [];
+    let node;
+
+    while ((node = walker.nextNode())) {
+      textNodes.push(node);
+    }
+
+    let total = 0;
+
+    textNodes.forEach(textNode => {
+      const previousRef = findPreviousBibleRefInSameParent(textNode);
+
+      if (!previousRef) {
+        return;
+      }
+
+      const inheritedBook = previousRef.getAttribute("data-book");
+
+      if (!inheritedBook) {
+        return;
+      }
+
+      const text = textNode.nodeValue;
+
+      const continuationRegex =
+        /([;；]\s*)(\d{1,3})\s*[:.]\s*(\d{1,3}(?:\s*[-–—]\s*\d{1,3})?(?:\s*,\s*\d{1,3}(?:\s*[-–—]\s*\d{1,3})?)*)/g;
+
+      let match;
+      let lastIndex = 0;
+      let found = 0;
+      const fragment = document.createDocumentFragment();
+
+      while ((match = continuationRegex.exec(text)) !== null) {
+        const prefix = match[1] || "";
+        const rawChapter = match[2] || "";
+        const rawVerses = match[3] || "";
+
+        const chapter = parseInt(rawChapter, 10);
+
+        if (!Number.isInteger(chapter)) {
+          continue;
+        }
+
+        const passage = getPassage(inheritedBook, chapter, rawVerses);
+
+        if (!passage) {
+          continue;
+        }
+
+        const referenceStart = match.index + prefix.length;
+        const referenceEnd = match.index + match[0].length;
+        const referenceText = text.slice(referenceStart, referenceEnd);
+
+        fragment.appendChild(
+          document.createTextNode(text.slice(lastIndex, referenceStart))
+        );
+
+        const span = document.createElement("span");
+        span.className = "otica-bible-ref";
+        span.textContent = referenceText;
+        span.setAttribute("data-book", inheritedBook);
+        span.setAttribute("data-chapter", String(chapter));
+        span.setAttribute("data-verses", rawVerses.replace(/\s+/g, ""));
+        span.setAttribute("data-label", referenceText);
+
+        fragment.appendChild(span);
+
+        lastIndex = referenceEnd;
+        found++;
+      }
+
+      if (!found) {
+        return;
+      }
+
+      fragment.appendChild(document.createTextNode(text.slice(lastIndex)));
+      textNode.parentNode.replaceChild(fragment, textNode);
+
+      total += found;
+    });
+
+    if (CONFIG.debug) {
+      console.log("Ótica Reformada VerseLinker ACF: referências herdadas:", total);
+    }
+
+    return total;
+  }
+  
   function processPage() {
     const referenceRegex = buildReferenceRegex();
 
@@ -964,15 +1109,22 @@
       }
     });
 
-    let total = 0;
+        let total = 0;
 
     textNodes.forEach(textNode => {
       total += processTextNode(textNode, referenceRegex);
     });
 
+    let inheritedTotal = 0;
+
+    roots.forEach(root => {
+      inheritedTotal += processInheritedReferences(root) || 0;
+    });
+
     console.log("Ótica Reformada VerseLinker ACF: áreas analisadas:", roots.length);
     console.log("Ótica Reformada VerseLinker ACF: nós de texto analisados:", textNodes.length);
     console.log("Ótica Reformada VerseLinker ACF: referências processadas:", total);
+    console.log("Ótica Reformada VerseLinker ACF: referências herdadas:", inheritedTotal);
   }
 
   function setupEvents() {
