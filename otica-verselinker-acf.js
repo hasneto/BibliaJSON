@@ -655,7 +655,7 @@
     return (
       "<div class='otica-bible-tooltip-title'>" +
       escapeHtml(label) +
-      " <span>" + escapeHtml(CONFIG.version) + "</span>" +
+      " <span>— " + escapeHtml(CONFIG.version) + "</span>" +
       "</div>" +
       "<div class='otica-bible-tooltip-body'>" +
       versesHtml +
@@ -732,7 +732,7 @@
       .otica-bible-tooltip {
         position: absolute;
         z-index: 999999;
-        width: min(390px, calc(100vw - 24px));
+        width: min(340px, calc(100vw - 24px));
         max-height: 360px;
         overflow-y: auto;
         background: #ffffff;
