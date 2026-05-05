@@ -1,10 +1,16 @@
 /*
- * Versão estável: v11
- * Recursos:
+ * Versão de teste - Ótica Reformada VerseLinker - ACF
+ *
+ * Mantém o funcionamento estável:
  * - reconhecimento de referências bíblicas em postagens do Blogger
  * - tooltip ACF via ACF.json do GitHub
  * - suporte a PC e celular
  * - rolagem interna para textos longos
+ * - cabeçalho fixo na tooltip
+ *
+ * Ajustes em teste:
+ * - livros de um só capítulo: Jd 24 = Judas 1:24
+ * - referências sem livro herdam o último livro citado: Rm 3:21-26; 4:5-8; 8:1
  */
 
 (function () {
@@ -349,14 +355,14 @@
     ".otica-bible-tooltip"
   ].join(",");
 
-    const SINGLE_CHAPTER_BOOKS = new Set([
+  const SINGLE_CHAPTER_BOOKS = new Set([
     "ob",
     "fm",
     "2jo",
     "3jo",
     "jd"
   ]);
-  
+
   let bibleByAbbrev = {};
   let tooltip = null;
 
@@ -842,7 +848,7 @@
       const referenceStart = match.index + prefix.length;
       const referenceText = fullMatch.slice(prefix.length);
 
-            const abbrev = getBookAbbrev(rawBook);
+      const abbrev = getBookAbbrev(rawBook);
       let chapter = parseInt(rawChapter, 10);
       let verses = rawVerses;
 
@@ -872,6 +878,7 @@
       span.setAttribute("data-chapter", String(chapter));
       span.setAttribute("data-verses", verses.replace(/\s+/g, ""));
       span.setAttribute("data-label", referenceText);
+
       fragment.appendChild(span);
 
       lastIndex = match.index + fullMatch.length;
@@ -888,143 +895,133 @@
     return found;
   }
 
-    function findPreviousBibleRefInSameParent(textNode) {
-    const parent = textNode.parentNode;
-
-    if (!parent) {
-      return null;
-    }
-
-    let previous = textNode.previousSibling;
-
-    while (previous) {
-      if (
-        previous.nodeType === Node.ELEMENT_NODE &&
-        previous.classList &&
-        previous.classList.contains("otica-bible-ref")
-      ) {
-        return previous;
-      }
-
-      if (previous.nodeType === Node.ELEMENT_NODE) {
-        const refs = previous.querySelectorAll
-          ? previous.querySelectorAll(".otica-bible-ref")
-          : [];
-
-        if (refs && refs.length) {
-          return refs[refs.length - 1];
-        }
-      }
-
-      previous = previous.previousSibling;
-    }
-
-    return null;
-  }
-
   function processInheritedReferences(root) {
-    const walker = document.createTreeWalker(
-      root,
-      NodeFilter.SHOW_TEXT,
-      {
-        acceptNode(node) {
-          if (shouldSkipNode(node)) {
-            return NodeFilter.FILTER_REJECT;
-          }
-
-          if (!node.nodeValue || !node.nodeValue.trim()) {
-            return NodeFilter.FILTER_REJECT;
-          }
-
-          if (!/[;；]\s*\d{1,3}\s*[:.]\s*\d{1,3}/.test(node.nodeValue)) {
-            return NodeFilter.FILTER_REJECT;
-          }
-
-          return NodeFilter.FILTER_ACCEPT;
-        }
-      }
-    );
-
-    const textNodes = [];
-    let node;
-
-    while ((node = walker.nextNode())) {
-      textNodes.push(node);
-    }
-
     let total = 0;
 
-    textNodes.forEach(textNode => {
-      const previousRef = findPreviousBibleRefInSameParent(textNode);
+    function processContainer(container) {
+      let lastBibleRef = null;
+      const children = Array.from(container.childNodes);
 
-      if (!previousRef) {
-        return;
-      }
-
-      const inheritedBook = previousRef.getAttribute("data-book");
-
-      if (!inheritedBook) {
-        return;
-      }
-
-      const text = textNode.nodeValue;
-
-      const continuationRegex =
-        /([;；]\s*)(\d{1,3})\s*[:.]\s*(\d{1,3}(?:\s*[-–—]\s*\d{1,3})?(?:\s*,\s*\d{1,3}(?:\s*[-–—]\s*\d{1,3})?)*)/g;
-
-      let match;
-      let lastIndex = 0;
-      let found = 0;
-      const fragment = document.createDocumentFragment();
-
-      while ((match = continuationRegex.exec(text)) !== null) {
-        const prefix = match[1] || "";
-        const rawChapter = match[2] || "";
-        const rawVerses = match[3] || "";
-
-        const chapter = parseInt(rawChapter, 10);
-
-        if (!Number.isInteger(chapter)) {
-          continue;
+      children.forEach(child => {
+        if (
+          child.nodeType === Node.ELEMENT_NODE &&
+          child.classList &&
+          child.classList.contains("otica-bible-ref")
+        ) {
+          lastBibleRef = child;
+          return;
         }
 
-        const passage = getPassage(inheritedBook, chapter, rawVerses);
+        if (child.nodeType === Node.TEXT_NODE) {
+          if (!lastBibleRef) {
+            return;
+          }
 
-        if (!passage) {
-          continue;
+          const text = child.nodeValue;
+
+          if (!text || !text.trim()) {
+            return;
+          }
+
+          if (!/[;；]\s*\d{1,3}\s*[:.]\s*\d{1,3}/.test(text)) {
+            return;
+          }
+
+          const inheritedBook = lastBibleRef.getAttribute("data-book");
+
+          if (!inheritedBook) {
+            return;
+          }
+
+          const continuationRegex =
+            /([;；]\s*)(\d{1,3})\s*[:.]\s*(\d{1,3}(?:\s*[-–—]\s*\d{1,3})?(?:\s*,\s*\d{1,3}(?:\s*[-–—]\s*\d{1,3})?)*)/g;
+
+          let match;
+          let lastIndex = 0;
+          let found = 0;
+          const fragment = document.createDocumentFragment();
+
+          while ((match = continuationRegex.exec(text)) !== null) {
+            const prefix = match[1] || "";
+            const rawChapter = match[2] || "";
+            const rawVerses = match[3] || "";
+            const chapter = parseInt(rawChapter, 10);
+
+            if (!Number.isInteger(chapter)) {
+              continue;
+            }
+
+            const passage = getPassage(inheritedBook, chapter, rawVerses);
+
+            if (!passage) {
+              continue;
+            }
+
+            const referenceStart = match.index + prefix.length;
+            const referenceEnd = match.index + match[0].length;
+            const referenceText = text.slice(referenceStart, referenceEnd);
+
+            fragment.appendChild(
+              document.createTextNode(text.slice(lastIndex, referenceStart))
+            );
+
+            const span = document.createElement("span");
+            span.className = "otica-bible-ref";
+            span.textContent = referenceText;
+            span.setAttribute("data-book", inheritedBook);
+            span.setAttribute("data-chapter", String(chapter));
+            span.setAttribute("data-verses", rawVerses.replace(/\s+/g, ""));
+            span.setAttribute("data-label", referenceText);
+
+            fragment.appendChild(span);
+
+            lastIndex = referenceEnd;
+            found++;
+            total++;
+          }
+
+          if (!found) {
+            return;
+          }
+
+          fragment.appendChild(document.createTextNode(text.slice(lastIndex)));
+          child.parentNode.replaceChild(fragment, child);
+
+          return;
         }
 
-        const referenceStart = match.index + prefix.length;
-        const referenceEnd = match.index + match[0].length;
-        const referenceText = text.slice(referenceStart, referenceEnd);
+        if (child.nodeType === Node.ELEMENT_NODE) {
+          const tag = child.tagName.toLowerCase();
 
-        fragment.appendChild(
-          document.createTextNode(text.slice(lastIndex, referenceStart))
-        );
+          if (SKIP_TAGS.has(tag)) {
+            return;
+          }
 
-        const span = document.createElement("span");
-        span.className = "otica-bible-ref";
-        span.textContent = referenceText;
-        span.setAttribute("data-book", inheritedBook);
-        span.setAttribute("data-chapter", String(chapter));
-        span.setAttribute("data-verses", rawVerses.replace(/\s+/g, ""));
-        span.setAttribute("data-label", referenceText);
+          if (child.closest && child.closest(".otica-bible-tooltip")) {
+            return;
+          }
 
-        fragment.appendChild(span);
+          if (
+            child.matches &&
+            child.matches("script, style, iframe, noscript, textarea, input, select, option, code, pre")
+          ) {
+            return;
+          }
 
-        lastIndex = referenceEnd;
-        found++;
-      }
+          processContainer(child);
 
-      if (!found) {
-        return;
-      }
+          const refs = child.querySelectorAll
+            ? child.querySelectorAll(".otica-bible-ref")
+            : [];
 
-      fragment.appendChild(document.createTextNode(text.slice(lastIndex)));
-      textNode.parentNode.replaceChild(fragment, textNode);
+          if (refs && refs.length) {
+            lastBibleRef = refs[refs.length - 1];
+          }
+        }
+      });
+    }
 
-      total += found;
-    });
+    processContainer(root);
 
     if (CONFIG.debug) {
       console.log("Ótica Reformada VerseLinker ACF: referências herdadas:", total);
@@ -1032,7 +1029,7 @@
 
     return total;
   }
-  
+
   function processPage() {
     const referenceRegex = buildReferenceRegex();
 
@@ -1109,7 +1106,7 @@
       }
     });
 
-        let total = 0;
+    let total = 0;
 
     textNodes.forEach(textNode => {
       total += processTextNode(textNode, referenceRegex);
