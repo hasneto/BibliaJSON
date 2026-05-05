@@ -995,23 +995,27 @@
       }, 120);
     });
 
-    document.addEventListener("touchstart", function (event) {
-      const tooltipTarget = event.target.closest(".otica-bible-tooltip");
+    document.addEventListener(
+      "touchstart",
+      function (event) {
+        const tooltipTarget = event.target.closest(".otica-bible-tooltip");
 
-      if (tooltipTarget) {
-        return;
-      }
+        if (tooltipTarget) {
+          return;
+        }
 
-      const target = event.target.closest(".otica-bible-ref");
+        const target = event.target.closest(".otica-bible-ref");
 
-      if (!target) {
-        removeTooltip();
-        return;
-      }
+        if (!target) {
+          removeTooltip();
+          return;
+        }
 
-      event.preventDefault();
-      showTooltip(target);
-    }, { passive: false });
+        event.preventDefault();
+        showTooltip(target);
+      },
+      { passive: false }
+    );
   }
 
   async function init() {
