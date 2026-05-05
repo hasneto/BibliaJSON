@@ -1,10 +1,7 @@
 /*
- * Versão estável: v11
- * Recursos:
- * - reconhecimento de referências bíblicas em postagens do Blogger
- * - tooltip ACF via ACF.json do GitHub
- * - suporte a PC e celular
- * - rolagem interna para textos longos
+ * Ótica Reformada VerseLinker - ACF
+ * Reconhece referências bíblicas nas postagens do Blogger
+ * e exibe tooltip usando o ACF.json hospedado no GitHub.
  */
 
 (function () {
@@ -806,7 +803,7 @@
     return false;
   }
 
-    function processTextNode(node, referenceRegex) {
+  function processTextNode(node, referenceRegex) {
     if (shouldSkipNode(node)) {
       return 0;
     }
@@ -819,15 +816,9 @@
 
     referenceRegex.lastIndex = 0;
 
-    const references = [];
     let match;
+    const references = [];
 
-    /*
-     * 1) Primeiro reconhece as referências completas:
-     *    Rm 3:21-26
-     *    Ef 2:8-9
-     *    Mc 4:12
-     */
     while ((match = referenceRegex.exec(text)) !== null) {
       const fullMatch = match[0];
       const prefix = match[1] || "";
@@ -856,23 +847,20 @@
         start: referenceStart,
         end: referenceEnd,
         text: referenceText,
-        abbrev,
-        chapter,
-        verses: rawVerses
+        abbrev: abbrev,
+        chapter: chapter,
+        verses: rawVerses,
+        inherited: false
       });
     }
 
-    /*
-     * 2) Depois reconhece referências sem livro,
-     *    herdando o último livro citado no mesmo trecho:
-     *
-     *    Rm 3:21-26; 4:5-8; 8:1
-     *                 ^^^^^  ^^^
-     *
-     *    Mc 4:12; At 2:38; 20:21
-     *                          ^^^^^
-     */
-    const fullReferences = references.slice().sort((a, b) => a.start - b.start);
+    if (!references.length) {
+      return 0;
+    }
+
+    const fullReferences = references
+      .filter(ref => !ref.inherited)
+      .sort((a, b) => a.start - b.start);
 
     fullReferences.forEach((currentRef, index) => {
       const segmentStart = currentRef.end;
@@ -883,15 +871,14 @@
 
       const segment = text.slice(segmentStart, segmentEnd);
 
-      const continuationRegex = /([;；]\s*)(\d{1,3})\s*[:.]\s*(\d{1,3}(?:\s*[-–—]\s*\d{1,3})?(?:\s*,\s*\d{1,3}(?:\s*[-–—]\s*\d{1,3})?)*)/g;
+      const continuationRegex =
+        /(?:^|[;；]\s*)(\d{1,3})\s*[:.]\s*(\d{1,3}(?:\s*[-–—]\s*\d{1,3})?(?:\s*,\s*\d{1,3}(?:\s*[-–—]\s*\d{1,3})?)*)/g;
 
       let continuationMatch;
 
       while ((continuationMatch = continuationRegex.exec(segment)) !== null) {
-        const continuationPrefix = continuationMatch[1] || "";
-        const rawChapter = continuationMatch[2] || "";
-        const rawVerses = continuationMatch[3] || "";
-
+        const rawChapter = continuationMatch[1] || "";
+        const rawVerses = continuationMatch[2] || "";
         const chapter = parseInt(rawChapter, 10);
 
         if (!Number.isInteger(chapter)) {
@@ -904,11 +891,18 @@
           continue;
         }
 
+        const fullContinuation = continuationMatch[0];
+        const chapterPositionInsideMatch = fullContinuation.search(/\d/);
+
+        if (chapterPositionInsideMatch < 0) {
+          continue;
+        }
+
         const referenceStart =
-          segmentStart + continuationMatch.index + continuationPrefix.length;
+          segmentStart + continuationMatch.index + chapterPositionInsideMatch;
 
         const referenceEnd =
-          segmentStart + continuationMatch.index + continuationMatch[0].length;
+          segmentStart + continuationMatch.index + fullContinuation.length;
 
         const referenceText = text.slice(referenceStart, referenceEnd);
 
@@ -917,15 +911,12 @@
           end: referenceEnd,
           text: referenceText,
           abbrev: currentRef.abbrev,
-          chapter,
-          verses: rawVerses
+          chapter: chapter,
+          verses: rawVerses,
+          inherited: true
         });
       }
     });
-
-    if (!references.length) {
-      return 0;
-    }
 
     references.sort((a, b) => a.start - b.start);
 
