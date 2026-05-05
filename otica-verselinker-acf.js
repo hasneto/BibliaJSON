@@ -1,7 +1,10 @@
 /*
- * Ótica Reformada VerseLinker - ACF
- * Reconhece referências bíblicas nas postagens do Blogger
- * e exibe tooltip usando o ACF.json hospedado no GitHub.
+ * Versão estável: v11
+ * Recursos:
+ * - reconhecimento de referências bíblicas em postagens do Blogger
+ * - tooltip ACF via ACF.json do GitHub
+ * - suporte a PC e celular
+ * - rolagem interna para textos longos
  */
 
 (function () {
