@@ -330,13 +330,23 @@
     "time"
   ]);
 
-  const SKIP_SELECTOR = [
+    const SKIP_SELECTOR = [
     ".sidebar",
-    ".widget",
+    ".sidebar-wrapper",
+    "#sidebar",
+    "#sidebar-wrapper",
     "[class*='sidebar']",
-    "[class*='widget']",
     "[id*='sidebar']",
-    "[id*='widget']",
+    "aside",
+    "nav",
+    "header",
+    "footer",
+    "#footer",
+    "#footer-wrapper",
+    ".footer",
+    ".comments",
+    "#comments",
+    ".post-share-buttons",
     ".otica-bible-tooltip"
   ].join(",");
 
