@@ -659,7 +659,36 @@ window.OTICA_VERSELINKER_BOOKS_EXTRA = {
     "2\\s*Jo[aã]o", "2Jo[aã]o", "2\\s*Jo", "2Jo", "II\\s*Jo[aã]o",
     "3\\s*Jo[aã]o", "3Jo[aã]o", "3\\s*Jo", "3Jo", "III\\s*Jo[aã]o",
     "Judas", "Jd",
-    "Apocalipse", "Ap", "Apo", "Apoc", "Revela[cç][aã]o"
+    "Apocalipse", "Ap", "Apo", "Apoc", "Revela[cç][aã]o",
+    "I\\s*Co",
+"I\\s*Cor",
+"I\\s*Cor\\.",
+"I\\s*Cor[ií]ntios",
+
+"II\\s*Co",
+"II\\s*Cor",
+"II\\s*Cor\\.",
+"II\\s*Cor[ií]ntios",
+
+"I\\s*Ts",
+"I\\s*Tess",
+"I\\s*Tess\\.",
+"I\\s*Tessalonicenses",
+
+"II\\s*Ts",
+"II\\s*Tess",
+"II\\s*Tess\\.",
+"II\\s*Tessalonicenses",
+
+"I\\s*Tm",
+"I\\s*Tim",
+"I\\s*Tim\\.",
+"I\\s*Tim[oó]teo",
+
+"II\\s*Tm",
+"II\\s*Tim",
+"II\\s*Tim\\.",
+"II\\s*Tim[oó]teo"
   ],
 
   displayNames: {
