@@ -370,6 +370,12 @@ window.OTICA_VERSELINKER_BOOKS_EXTRA = {
     "i coríntios": "1co",
     "primeiro corintios": "1co",
     "primeiro coríntios": "1co",
+    "i co": "1co",
+"i co.": "1co",
+"i cor": "1co",
+"i cor.": "1co",
+"i corintios": "1co",
+"i coríntios": "1co",
 
     // 2 Coríntios
     "2co": "2co",
@@ -384,6 +390,12 @@ window.OTICA_VERSELINKER_BOOKS_EXTRA = {
     "ii coríntios": "2co",
     "segundo corintios": "2co",
     "segundo coríntios": "2co",
+    "ii co": "2co",
+"ii co.": "2co",
+"ii cor": "2co",
+"ii cor.": "2co",
+"ii corintios": "2co",
+"ii coríntios": "2co",
 
     // Gálatas
     "gl": "gl",
@@ -423,6 +435,11 @@ window.OTICA_VERSELINKER_BOOKS_EXTRA = {
     "1 tessalonicenses": "1ts",
     "i tessalonicenses": "1ts",
     "primeiro tessalonicenses": "1ts",
+    "i ts": "1ts",
+"i ts.": "1ts",
+"i tess": "1ts",
+"i tess.": "1ts",
+"i tessalonicenses": "1ts",
 
     // 2 Tessalonicenses
     "2ts": "2ts",
@@ -432,6 +449,11 @@ window.OTICA_VERSELINKER_BOOKS_EXTRA = {
     "2 tessalonicenses": "2ts",
     "ii tessalonicenses": "2ts",
     "segundo tessalonicenses": "2ts",
+    "ii ts": "2ts",
+"ii ts.": "2ts",
+"ii tess": "2ts",
+"ii tess.": "2ts",
+"ii tessalonicenses": "2ts",
 
     // 1 Timóteo
     "1tm": "1tm",
@@ -444,6 +466,12 @@ window.OTICA_VERSELINKER_BOOKS_EXTRA = {
     "i timóteo": "1tm",
     "primeiro timoteo": "1tm",
     "primeiro timóteo": "1tm",
+    "i tm": "1tm",
+"i tm.": "1tm",
+"i tim": "1tm",
+"i tim.": "1tm",
+"i timoteo": "1tm",
+"i timóteo": "1tm",
 
     // 2 Timóteo
     "2tm": "2tm",
@@ -456,6 +484,12 @@ window.OTICA_VERSELINKER_BOOKS_EXTRA = {
     "ii timóteo": "2tm",
     "segundo timoteo": "2tm",
     "segundo timóteo": "2tm",
+    "ii tm": "2tm",
+"ii tm.": "2tm",
+"ii tim": "2tm",
+"ii tim.": "2tm",
+"ii timoteo": "2tm",
+"ii timóteo": "2tm",
 
     // Tito
     "tt": "tt",
