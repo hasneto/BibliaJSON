@@ -1,16 +1,18 @@
 /*
  * Versão de teste - Ótica Reformada VerseLinker - ACF
  *
- * Mantém o funcionamento estável:
+ * Mantém:
  * - reconhecimento de referências bíblicas em postagens do Blogger
  * - tooltip ACF via ACF.json do GitHub
  * - suporte a PC e celular
  * - rolagem interna para textos longos
  * - cabeçalho fixo na tooltip
- *
- * Ajustes em teste:
  * - livros de um só capítulo: Jd 24 = Judas 1:24
- * - referências sem livro herdam o último livro citado: Rm 3:21-26; 4:5-8; 8:1
+ * - referências sem livro herdam o último livro citado
+ *
+ * Novo:
+ * - lê nomes, siglas, padrões e nomes de exibição do arquivo externo:
+ *   otica-verselinker-livros.js
  */
 
 (function () {
@@ -314,6 +316,19 @@
     "revelação": "ap"
   };
 
+  /*
+   * Dados externos vindos de otica-verselinker-livros.js
+   * Esse arquivo deve ser carregado ANTES deste script no Blogger.
+   */
+  const EXTERNAL_BOOKS = window.OTICA_VERSELINKER_BOOKS_EXTRA || {};
+
+  if (
+    EXTERNAL_BOOKS.aliases &&
+    typeof EXTERNAL_BOOKS.aliases === "object"
+  ) {
+    Object.assign(BOOK_ALIASES, EXTERNAL_BOOKS.aliases);
+  }
+
   const SKIP_TAGS = new Set([
     "script",
     "style",
@@ -403,7 +418,7 @@
     return BOOK_ALIASES[original] || BOOK_ALIASES[normalized] || null;
   }
 
-    function getBookDisplayName(abbrev) {
+  function getBookDisplayName(abbrev) {
     const names = {
       "gn": "Gênesis",
       "ex": "Êxodo",
@@ -473,10 +488,16 @@
       "ap": "Apocalipse"
     };
 
-    return names[abbrev] || abbrev;
+    const externalDisplayNames =
+      EXTERNAL_BOOKS.displayNames &&
+      typeof EXTERNAL_BOOKS.displayNames === "object"
+        ? EXTERNAL_BOOKS.displayNames
+        : {};
+
+    return externalDisplayNames[abbrev] || names[abbrev] || abbrev;
   }
 
-    function buildFullReferenceLabel(abbrev, chapter, verses) {
+  function buildFullReferenceLabel(abbrev, chapter, verses) {
     const bookName = getBookDisplayName(abbrev);
     const cleanVerses = String(verses || "").replace(/\s+/g, "");
 
@@ -495,15 +516,18 @@
     const bookNames = [
       "1\\s*Pedro",
       "2\\s*Pedro",
+
       "1\\s*Jo[aã]o",
       "2\\s*Jo[aã]o",
       "3\\s*Jo[aã]o",
+
       "1\\s*Jo",
       "2\\s*Jo",
       "3\\s*Jo",
       "1Jo",
       "2Jo",
       "3Jo",
+
       "1\\s*Cor[ií]ntios",
       "2\\s*Cor[ií]ntios",
       "1\\s*Tessalonicenses",
@@ -639,6 +663,12 @@
       "Apocalipse",
       "Ap"
     ];
+
+    const externalPatterns = Array.isArray(EXTERNAL_BOOKS.patterns)
+      ? EXTERNAL_BOOKS.patterns
+      : [];
+
+    bookNames.push(...externalPatterns);
 
     const bookPattern = bookNames.join("|");
 
@@ -1023,14 +1053,9 @@
 
           const inheritedBook = lastBibleRef.getAttribute("data-book");
 
-if (!inheritedBook) {
-  return;
-}
-
-const inheritedBookName =
-  bibleByAbbrev[inheritedBook]?.name ||
-  lastBibleRef.getAttribute("data-label")?.split(/\s+/)[0] ||
-  inheritedBook;
+          if (!inheritedBook) {
+            return;
+          }
 
           const continuationRegex =
             /([;；]\s*)(\d{1,3})\s*[:.]\s*(\d{1,3}(?:\s*[-–—]\s*\d{1,3})?(?:\s*,\s*\d{1,3}(?:\s*[-–—]\s*\d{1,3})?)*)/g;
