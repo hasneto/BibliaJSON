@@ -27,6 +27,7 @@ window.OTICA_VERSELINKER_BOOKS_EXTRA = {
 
     // Êxodo
     "ex": "ex",
+    "Êx": "ex",
     "ex.": "ex",
     "exo": "ex",
     "exo.": "ex",
