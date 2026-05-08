@@ -93,7 +93,6 @@ window.OTICA_VERSELINKER_BOOKS_EXTRA = {
     "2 sm.": "2sm",
     "2 samuel": "2sm",
     "ii samuel": "2sm",
-    "II Sam.": "2sm",
     "segundo samuel": "2sm",
 
     // 1 Reis
@@ -138,7 +137,6 @@ window.OTICA_VERSELINKER_BOOKS_EXTRA = {
     "ii cronicas": "2cr",
     "ii crônicas": "2cr",
     "segundo cronicas": "2cr",
-    "II Cron.": "2cr",
     "segundo crônicas": "2cr",
 
     // Esdras
@@ -166,7 +164,6 @@ window.OTICA_VERSELINKER_BOOKS_EXTRA = {
     "jó": "jó",
     "jo": "jó",
     "jô": "jó",
-    "Jó": "jó",
     "job": "jó",
 
     // Salmos
@@ -182,7 +179,6 @@ window.OTICA_VERSELINKER_BOOKS_EXTRA = {
     "pv": "pv",
     "pv.": "pv",
     "prov": "pv",
-    "Prov.": "pv",
     "prov.": "pv",
     "proverbios": "pv",
     "provérbios": "pv",
@@ -326,19 +322,16 @@ window.OTICA_VERSELINKER_BOOKS_EXTRA = {
     // Mateus
     "mt": "mt",
     "mt.": "mt",
-    "Mat.": "mt",
     "mateus": "mt",
 
     // Marcos
     "mc": "mc",
     "mc.": "mc",
-    "Mar.": "mc",
     "marcos": "mc",
 
     // Lucas
     "lc": "lc",
     "lc.": "lc",
-    "Luc.": "lc",
     "lucas": "lc",
 
     // João
@@ -363,7 +356,6 @@ window.OTICA_VERSELINKER_BOOKS_EXTRA = {
     "rm.": "rm",
     "rom": "rm",
     "rom.": "rm",
-    "Rom.": "rm",
     "romanos": "rm",
 
     // 1 Coríntios
@@ -531,7 +523,6 @@ window.OTICA_VERSELINKER_BOOKS_EXTRA = {
     "1 pe.": "1pe",
     "1 pedro": "1pe",
     "i pedro": "1pe",
-    "I Ped.": "1pe",
     "primeiro pedro": "1pe",
 
     // 2 Pedro
@@ -541,7 +532,6 @@ window.OTICA_VERSELINKER_BOOKS_EXTRA = {
     "2 pe.": "2pe",
     "2 pedro": "2pe",
     "ii pedro": "2pe",
-    "II Ped.": "2pe",
     "segundo pedro": "2pe",
 
     // 1 João
@@ -583,7 +573,6 @@ window.OTICA_VERSELINKER_BOOKS_EXTRA = {
     // Judas
     "jd": "jd",
     "jd.": "jd",
-    "Jud.": "jd",
     "judas": "jd",
 
     // Apocalipse
@@ -610,18 +599,18 @@ window.OTICA_VERSELINKER_BOOKS_EXTRA = {
     "Josu[eé]", "Js", "Jos",
     "Ju[ií]zes", "Jz",
     "Rute", "Rt",
-    "1\\s*Samuel", "1Samuel", "1\\s*Sm", "1Sm", "I\\s*Samuel", "I\\Sam.",
-    "2\\s*Samuel", "2Samuel", "2\\s*Sm", "2Sm", "II\\s*Samuel", "II\\Sam.",
+    "1\\s*Samuel", "1Samuel", "1\\s*Sm", "1Sm", "I\\s*Samuel",
+    "2\\s*Samuel", "2Samuel", "2\\s*Sm", "2Sm", "II\\s*Samuel",
     "1\\s*Reis", "1Reis", "1\\s*Rs", "1Rs", "I\\s*Reis",
     "2\\s*Reis", "2Reis", "2\\s*Rs", "2Rs", "II\\s*Reis",
-    "1\\s*Cr[oô]nicas", "1Cr[oô]nicas", "1\\s*Cr", "1Cr", "I\\s*Cr[oô]nicas", "I\\Cron.",
-    "2\\s*Cr[oô]nicas", "2Cr[oô]nicas", "2\\s*Cr", "2Cr", "II\\s*Cr[oô]nicas", "II\\Cron.",
+    "1\\s*Cr[oô]nicas", "1Cr[oô]nicas", "1\\s*Cr", "1Cr", "I\\s*Cr[oô]nicas",
+    "2\\s*Cr[oô]nicas", "2Cr[oô]nicas", "2\\s*Cr", "2Cr", "II\\s*Cr[oô]nicas",
     "Esdras", "Ed", "Esd",
     "Neemias", "Ne", "Nee",
     "Ester", "Et", "Est",
     "J[oó]", "Job",
     "Salmos?", "Sl", "Sal",
-    "Prov[eé]rbios", "Pv", "Prov", "Prov.",
+    "Prov[eé]rbios", "Pv", "Prov",
     "Eclesiastes", "Ec", "Ecl",
     "Cantares", "Ct", "Cant", "C[aâ]nticos", "C[aâ]ntico\\s+dos\\s+C[aâ]nticos",
     "Isa[ií]as", "Is", "Isa",
@@ -645,12 +634,12 @@ window.OTICA_VERSELINKER_BOOKS_EXTRA = {
     /*
      * Novo Testamento
      */
-    "Mateus", "Mt", "Mat.",
-    "Marcos", "Mc", "Mar.",
-    "Lucas", "Lc", "Luc.",
+    "Mateus", "Mt",
+    "Marcos", "Mc",
+    "Lucas", "Lc",
     "Jo[aã]o", "Jo",
     "Atos", "At",
-    "Romanos", "Rm", "Rom", "Rom.",
+    "Romanos", "Rm", "Rom",
     "1\\s*Cor[ií]ntios", "1Cor[ií]ntios", "1\\s*Co", "1Co", "1\\s*Cor", "1Cor", "I\\s*Cor[ií]ntios",
     "2\\s*Cor[ií]ntios", "2Cor[ií]ntios", "2\\s*Co", "2Co", "2\\s*Cor", "2Cor", "II\\s*Cor[ií]ntios",
     "G[aá]latas", "Gl", "Gal",
@@ -665,12 +654,12 @@ window.OTICA_VERSELINKER_BOOKS_EXTRA = {
     "Filemom", "Filemon", "Fil[eê]mon", "Fm",
     "Hebreus", "Hb", "Heb",
     "Tiago", "Tg",
-    "1\\s*Pedro", "1Pedro", "1\\s*Pe", "1Pe", "I\\s*Pedro", "I\\Ped.",
-    "2\\s*Pedro", "2Pedro", "2\\s*Pe", "2Pe", "II\\s*Pedro", "I\\Ped.",
+    "1\\s*Pedro", "1Pedro", "1\\s*Pe", "1Pe", "I\\s*Pedro",
+    "2\\s*Pedro", "2Pedro", "2\\s*Pe", "2Pe", "II\\s*Pedro",
     "1\\s*Jo[aã]o", "1Jo[aã]o", "1\\s*Jo", "1Jo", "I\\s*Jo[aã]o",
     "2\\s*Jo[aã]o", "2Jo[aã]o", "2\\s*Jo", "2Jo", "II\\s*Jo[aã]o",
     "3\\s*Jo[aã]o", "3Jo[aã]o", "3\\s*Jo", "3Jo", "III\\s*Jo[aã]o",
-    "Judas", "Jd", "Jud.",
+    "Judas", "Jd",
     "Apocalipse", "Ap", "Apo", "Apoc", "Revela[cç][aã]o",
     "I\\s*Co",
 "I\\s*Cor",
