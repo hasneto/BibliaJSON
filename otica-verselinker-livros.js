@@ -592,7 +592,7 @@ window.OTICA_VERSELINKER_BOOKS_EXTRA = {
      * Antigo Testamento
      */
     "G[eê]nesis", "Gn", "Gen", "Gên",
-    "Êxodo", "Exodo", "Ex", "Exo",
+    "Êxodo", "Exodo", "Ex", "Exo", "Êx",
     "Lev[ií]tico", "Lv", "Lev",
     "N[uú]meros", "Nm", "Num",
     "Deuteron[oô]mio", "Dt", "Deut",
