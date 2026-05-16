@@ -27,10 +27,11 @@ window.OTICA_VERSELINKER_BOOKS_EXTRA = {
 
     // Êxodo
     "ex": "ex",
-    "Êx": "ex",
     "ex.": "ex",
     "exo": "ex",
     "exo.": "ex",
+    "êx": "ex",
+    "êx.": "ex",
     "exodo": "ex",
     "êxodo": "ex",
 
@@ -83,6 +84,8 @@ window.OTICA_VERSELINKER_BOOKS_EXTRA = {
     "1sm.": "1sm",
     "1 sm.": "1sm",
     "1 samuel": "1sm",
+    "i sam": "1sm",
+    "i sam.": "1sm",
     "i samuel": "1sm",
     "primeiro samuel": "1sm",
 
@@ -92,6 +95,8 @@ window.OTICA_VERSELINKER_BOOKS_EXTRA = {
     "2sm.": "2sm",
     "2 sm.": "2sm",
     "2 samuel": "2sm",
+    "ii sam": "2sm",
+    "ii sam.": "2sm",
     "ii samuel": "2sm",
     "segundo samuel": "2sm",
 
@@ -134,6 +139,8 @@ window.OTICA_VERSELINKER_BOOKS_EXTRA = {
     "2 cr.": "2cr",
     "2 cronicas": "2cr",
     "2 crônicas": "2cr",
+    "ii cron": "2cr",
+    "ii cron.": "2cr",
     "ii cronicas": "2cr",
     "ii crônicas": "2cr",
     "segundo cronicas": "2cr",
@@ -320,54 +327,24 @@ window.OTICA_VERSELINKER_BOOKS_EXTRA = {
      */
 
     // Mateus
-"mat": "mt",
-"mat.": "mt",
-
-// Lucas
-"luc": "lc",
-"luc.": "lc",
-
-// 2 Pedro
-"ii ped": "2pe",
-"ii ped.": "2pe",
-
-// 1 Samuel
-"i sam": "1sm",
-"i sam.": "1sm",
-
-// Marcos
-"mar": "mc",
-"mar.": "mc",
-
-// Judas
-"jud": "jd",
-"jud.": "jd",
-
-// Romanos
-"rom": "rm",
-"rom.": "rm",
-
-// 2 Crônicas
-"ii cron": "2cr",
-"ii cron.": "2cr",
-
-// 2 Samuel
-"ii sam": "2sm",
-"ii sam.": "2sm",
-
-    // Mateus
     "mt": "mt",
     "mt.": "mt",
+    "mat": "mt",
+    "mat.": "mt",
     "mateus": "mt",
 
     // Marcos
     "mc": "mc",
     "mc.": "mc",
+    "mar": "mc",
+    "mar.": "mc",
     "marcos": "mc",
 
     // Lucas
     "lc": "lc",
     "lc.": "lc",
+    "luc": "lc",
+    "luc.": "lc",
     "lucas": "lc",
 
     // João
@@ -403,16 +380,14 @@ window.OTICA_VERSELINKER_BOOKS_EXTRA = {
     "1 cor.": "1co",
     "1 corintios": "1co",
     "1 coríntios": "1co",
+    "i co": "1co",
+    "i co.": "1co",
+    "i cor": "1co",
+    "i cor.": "1co",
     "i corintios": "1co",
     "i coríntios": "1co",
     "primeiro corintios": "1co",
     "primeiro coríntios": "1co",
-    "i co": "1co",
-"i co.": "1co",
-"i cor": "1co",
-"i cor.": "1co",
-"i corintios": "1co",
-"i coríntios": "1co",
 
     // 2 Coríntios
     "2co": "2co",
@@ -423,16 +398,14 @@ window.OTICA_VERSELINKER_BOOKS_EXTRA = {
     "2 cor.": "2co",
     "2 corintios": "2co",
     "2 coríntios": "2co",
+    "ii co": "2co",
+    "ii co.": "2co",
+    "ii cor": "2co",
+    "ii cor.": "2co",
     "ii corintios": "2co",
     "ii coríntios": "2co",
     "segundo corintios": "2co",
     "segundo coríntios": "2co",
-    "ii co": "2co",
-"ii co.": "2co",
-"ii cor": "2co",
-"ii cor.": "2co",
-"ii corintios": "2co",
-"ii coríntios": "2co",
 
     // Gálatas
     "gl": "gl",
@@ -470,13 +443,12 @@ window.OTICA_VERSELINKER_BOOKS_EXTRA = {
     "1ts.": "1ts",
     "1 ts.": "1ts",
     "1 tessalonicenses": "1ts",
+    "i ts": "1ts",
+    "i ts.": "1ts",
+    "i tess": "1ts",
+    "i tess.": "1ts",
     "i tessalonicenses": "1ts",
     "primeiro tessalonicenses": "1ts",
-    "i ts": "1ts",
-"i ts.": "1ts",
-"i tess": "1ts",
-"i tess.": "1ts",
-"i tessalonicenses": "1ts",
 
     // 2 Tessalonicenses
     "2ts": "2ts",
@@ -484,13 +456,12 @@ window.OTICA_VERSELINKER_BOOKS_EXTRA = {
     "2ts.": "2ts",
     "2 ts.": "2ts",
     "2 tessalonicenses": "2ts",
+    "ii ts": "2ts",
+    "ii ts.": "2ts",
+    "ii tess": "2ts",
+    "ii tess.": "2ts",
     "ii tessalonicenses": "2ts",
     "segundo tessalonicenses": "2ts",
-    "ii ts": "2ts",
-"ii ts.": "2ts",
-"ii tess": "2ts",
-"ii tess.": "2ts",
-"ii tessalonicenses": "2ts",
 
     // 1 Timóteo
     "1tm": "1tm",
@@ -499,16 +470,14 @@ window.OTICA_VERSELINKER_BOOKS_EXTRA = {
     "1 tm.": "1tm",
     "1 timoteo": "1tm",
     "1 timóteo": "1tm",
+    "i tm": "1tm",
+    "i tm.": "1tm",
+    "i tim": "1tm",
+    "i tim.": "1tm",
     "i timoteo": "1tm",
     "i timóteo": "1tm",
     "primeiro timoteo": "1tm",
     "primeiro timóteo": "1tm",
-    "i tm": "1tm",
-"i tm.": "1tm",
-"i tim": "1tm",
-"i tim.": "1tm",
-"i timoteo": "1tm",
-"i timóteo": "1tm",
 
     // 2 Timóteo
     "2tm": "2tm",
@@ -517,16 +486,14 @@ window.OTICA_VERSELINKER_BOOKS_EXTRA = {
     "2 tm.": "2tm",
     "2 timoteo": "2tm",
     "2 timóteo": "2tm",
+    "ii tm": "2tm",
+    "ii tm.": "2tm",
+    "ii tim": "2tm",
+    "ii tim.": "2tm",
     "ii timoteo": "2tm",
     "ii timóteo": "2tm",
     "segundo timoteo": "2tm",
     "segundo timóteo": "2tm",
-    "ii tm": "2tm",
-"ii tm.": "2tm",
-"ii tim": "2tm",
-"ii tim.": "2tm",
-"ii timoteo": "2tm",
-"ii timóteo": "2tm",
 
     // Tito
     "tt": "tt",
@@ -567,6 +534,8 @@ window.OTICA_VERSELINKER_BOOKS_EXTRA = {
     "2pe.": "2pe",
     "2 pe.": "2pe",
     "2 pedro": "2pe",
+    "ii ped": "2pe",
+    "ii ped.": "2pe",
     "ii pedro": "2pe",
     "segundo pedro": "2pe",
 
@@ -609,6 +578,8 @@ window.OTICA_VERSELINKER_BOOKS_EXTRA = {
     // Judas
     "jd": "jd",
     "jd.": "jd",
+    "jud": "jd",
+    "jud.": "jd",
     "judas": "jd",
 
     // Apocalipse
@@ -635,12 +606,16 @@ window.OTICA_VERSELINKER_BOOKS_EXTRA = {
     "Josu[eé]", "Js", "Jos",
     "Ju[ií]zes", "Jz",
     "Rute", "Rt",
-    "1\\s*Samuel", "1Samuel", "1\\s*Sm", "1Sm", "I\\s*Samuel",
-    "2\\s*Samuel", "2Samuel", "2\\s*Sm", "2Sm", "II\\s*Samuel",
+
+    "1\\s*Samuel", "1Samuel", "1\\s*Sm", "1Sm", "I\\s*Samuel", "I\\s*Sam", "I\\s*Sam\\.",
+    "2\\s*Samuel", "2Samuel", "2\\s*Sm", "2Sm", "II\\s*Samuel", "II\\s*Sam", "II\\s*Sam\\.",
+
     "1\\s*Reis", "1Reis", "1\\s*Rs", "1Rs", "I\\s*Reis",
     "2\\s*Reis", "2Reis", "2\\s*Rs", "2Rs", "II\\s*Reis",
+
     "1\\s*Cr[oô]nicas", "1Cr[oô]nicas", "1\\s*Cr", "1Cr", "I\\s*Cr[oô]nicas",
-    "2\\s*Cr[oô]nicas", "2Cr[oô]nicas", "2\\s*Cr", "2Cr", "II\\s*Cr[oô]nicas",
+    "2\\s*Cr[oô]nicas", "2Cr[oô]nicas", "2\\s*Cr", "2Cr", "II\\s*Cr[oô]nicas", "II\\s*Cron", "II\\s*Cron\\.",
+
     "Esdras", "Ed", "Esd",
     "Neemias", "Ne", "Nee",
     "Ester", "Et", "Est",
@@ -670,97 +645,50 @@ window.OTICA_VERSELINKER_BOOKS_EXTRA = {
     /*
      * Novo Testamento
      */
-    // Mateus
-"Mat",
-"Mat\\.",
-
-// Lucas
-"Luc",
-"Luc\\.",
-
-// 2 Pedro
-"II\\s*Ped",
-"II\\s*Ped\\.",
-
-// 1 Samuel
-"I\\s*Sam",
-"I\\s*Sam\\.",
-
-// Marcos
-"Mar",
-"Mar\\.",
-
-// Judas
-"Jud",
-"Jud\\.",
-
-// Romanos
-"Rom",
-"Rom\\.",
-
-// 2 Crônicas
-"II\\s*Cron",
-"II\\s*Cron\\.",
-
-// 2 Samuel
-"II\\s*Sam",
-"II\\s*Sam\\."
-    "Mateus", "Mt",
-    "Marcos", "Mc",
-    "Lucas", "Lc",
+    "Mateus", "Mt", "Mat", "Mat\\.",
+    "Marcos", "Mc", "Mar", "Mar\\.",
+    "Lucas", "Lc", "Luc", "Luc\\.",
     "Jo[aã]o", "Jo",
     "Atos", "At",
-    "Romanos", "Rm", "Rom",
+    "Romanos", "Rm", "Rom", "Rom\\.",
+
     "1\\s*Cor[ií]ntios", "1Cor[ií]ntios", "1\\s*Co", "1Co", "1\\s*Cor", "1Cor", "I\\s*Cor[ií]ntios",
+    "I\\s*Co", "I\\s*Cor", "I\\s*Cor\\.", "I\\s*Cor[ií]ntios",
+
     "2\\s*Cor[ií]ntios", "2Cor[ií]ntios", "2\\s*Co", "2Co", "2\\s*Cor", "2Cor", "II\\s*Cor[ií]ntios",
-    "G[aá]latas", "Gl", "Gal",
+    "II\\s*Co", "II\\s*Cor", "II\\s*Cor\\.", "II\\s*Cor[ií]ntios",
+
+    "G[aá]latas", "Gl", "Gl\\.", "Gal", "Gal\\.",
     "Ef[eé]sios", "Ef",
     "Filipenses", "Fp", "Fl", "Fil",
     "Colossenses", "Cl", "Col",
+
     "1\\s*Tessalonicenses", "1Tessalonicenses", "1\\s*Ts", "1Ts", "I\\s*Tessalonicenses",
+    "I\\s*Ts", "I\\s*Tess", "I\\s*Tess\\.", "I\\s*Tessalonicenses",
+
     "2\\s*Tessalonicenses", "2Tessalonicenses", "2\\s*Ts", "2Ts", "II\\s*Tessalonicenses",
+    "II\\s*Ts", "II\\s*Tess", "II\\s*Tess\\.", "II\\s*Tessalonicenses",
+
     "1\\s*Tim[oó]teo", "1Tim[oó]teo", "1\\s*Tm", "1Tm", "I\\s*Tim[oó]teo",
+    "I\\s*Tm", "I\\s*Tim", "I\\s*Tim\\.", "I\\s*Tim[oó]teo",
+
     "2\\s*Tim[oó]teo", "2Tim[oó]teo", "2\\s*Tm", "2Tm", "II\\s*Tim[oó]teo",
+    "II\\s*Tm", "II\\s*Tim", "II\\s*Tim\\.", "II\\s*Tim[oó]teo",
+
     "Tito", "Tt",
     "Filemom", "Filemon", "Fil[eê]mon", "Fm",
     "Hebreus", "Hb", "Heb",
     "Tiago", "Tg",
+
     "1\\s*Pedro", "1Pedro", "1\\s*Pe", "1Pe", "I\\s*Pedro",
-    "2\\s*Pedro", "2Pedro", "2\\s*Pe", "2Pe", "II\\s*Pedro",
+    "2\\s*Pedro", "2Pedro", "2\\s*Pe", "2Pe", "II\\s*Pedro", "II\\s*Ped", "II\\s*Ped\\.",
+
     "1\\s*Jo[aã]o", "1Jo[aã]o", "1\\s*Jo", "1Jo", "I\\s*Jo[aã]o",
     "2\\s*Jo[aã]o", "2Jo[aã]o", "2\\s*Jo", "2Jo", "II\\s*Jo[aã]o",
     "3\\s*Jo[aã]o", "3Jo[aã]o", "3\\s*Jo", "3Jo", "III\\s*Jo[aã]o",
-    "Judas", "Jd",
-    "Apocalipse", "Ap", "Apo", "Apoc", "Revela[cç][aã]o",
-    "I\\s*Co",
-"I\\s*Cor",
-"I\\s*Cor\\.",
-"I\\s*Cor[ií]ntios",
 
-"II\\s*Co",
-"II\\s*Cor",
-"II\\s*Cor\\.",
-"II\\s*Cor[ií]ntios",
-
-"I\\s*Ts",
-"I\\s*Tess",
-"I\\s*Tess\\.",
-"I\\s*Tessalonicenses",
-
-"II\\s*Ts",
-"II\\s*Tess",
-"II\\s*Tess\\.",
-"II\\s*Tessalonicenses",
-
-"I\\s*Tm",
-"I\\s*Tim",
-"I\\s*Tim\\.",
-"I\\s*Tim[oó]teo",
-
-"II\\s*Tm",
-"II\\s*Tim",
-"II\\s*Tim\\.",
-"II\\s*Tim[oó]teo"
+    "Judas", "Jd", "Jud", "Jud\\.",
+    "Apocalipse", "Ap", "Apo", "Apoc", "Revela[cç][aã]o"
   ],
 
   displayNames: {
