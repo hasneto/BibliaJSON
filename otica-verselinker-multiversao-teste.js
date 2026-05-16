@@ -20,18 +20,48 @@
 
   const currentScript = document.currentScript;
 
+   function parseBibleVersionsConfig(rawValue) {
+    if (!rawValue) {
+      return null;
+    }
+
+    try {
+      return JSON.parse(rawValue);
+    } catch (error) {
+      console.error("Erro ao ler data-bible-versions:", error);
+      return null;
+    }
+  }
+
+  const DEFAULT_BIBLE_VERSIONS = {
+    ACF: "https://cdn.jsdelivr.net/gh/hasneto/BibliaJSON@main/ACF.json",
+    NAA: "https://cdn.jsdelivr.net/gh/hasneto/BibliaJSON@main/NAA.json",
+    NVI: "https://cdn.jsdelivr.net/gh/hasneto/BibliaJSON@main/NVI.json",
+    NVT: "https://cdn.jsdelivr.net/gh/hasneto/BibliaJSON@main/NVT.json",
+    KJA: "https://cdn.jsdelivr.net/gh/hasneto/BibliaJSON@main/KJA.json"
+  };
+
   const CONFIG = {
     bibleJsonUrl:
       currentScript?.getAttribute("data-bible-json") ||
       "https://cdn.jsdelivr.net/gh/hasneto/BibliaJSON@main/ACF.json",
 
-    version:
+    defaultVersion:
+      currentScript?.getAttribute("data-default-version") ||
       currentScript?.getAttribute("data-version") ||
       "ACF",
+
+    bibleVersions:
+      parseBibleVersionsConfig(currentScript?.getAttribute("data-bible-versions")) ||
+      DEFAULT_BIBLE_VERSIONS,
 
     debug:
       currentScript?.getAttribute("data-debug") === "true"
   };
+
+  if (!CONFIG.bibleVersions[CONFIG.defaultVersion]) {
+    CONFIG.bibleVersions[CONFIG.defaultVersion] = CONFIG.bibleJsonUrl;
+  }
 
   const BOOK_ALIASES = {
     "gn": "gn",
@@ -380,6 +410,9 @@
 
   let bibleByAbbrev = {};
   let tooltip = null;
+  let activeReferenceTarget = null;
+  let currentVersion = CONFIG.defaultVersion;
+  const bibleCache = {};
 
   function log(...args) {
     if (CONFIG.debug) {
@@ -497,6 +530,55 @@
     return externalDisplayNames[abbrev] || names[abbrev] || abbrev;
   }
 
+    async function loadBibleVersion(version) {
+    if (bibleCache[version]) {
+      bibleByAbbrev = bibleCache[version];
+      return;
+    }
+
+    const url = CONFIG.bibleVersions[version];
+
+    if (!url) {
+      throw new Error("Versão bíblica não configurada: " + version);
+    }
+
+    const response = await fetch(url);
+
+    if (!response.ok) {
+      throw new Error(
+        "Falha ao carregar " + version + ". Status: " + response.status
+      );
+    }
+
+    const bible = await response.json();
+    const mappedBible = {};
+
+    bible.forEach(book => {
+      if (book && book.abbrev) {
+        mappedBible[String(book.abbrev).toLowerCase()] = book;
+      }
+    });
+
+    bibleCache[version] = mappedBible;
+    bibleByAbbrev = mappedBible;
+  }
+
+  function buildVersionOptionsHtml() {
+    return Object.keys(CONFIG.bibleVersions)
+      .map(version => {
+        return (
+          "<option value='" +
+          escapeHtml(version) +
+          "'" +
+          (version === currentVersion ? " selected" : "") +
+          ">" +
+          escapeHtml(version) +
+          "</option>"
+        );
+      })
+      .join("");
+  }
+  
   function buildFullReferenceLabel(abbrev, chapter, verses) {
     const bookName = getBookDisplayName(abbrev);
     const cleanVerses = String(verses || "").replace(/\s+/g, "");
@@ -777,7 +859,7 @@
     };
   }
 
-  function buildTooltipHtml(label, passage) {
+    function buildTooltipHtml(label, passage) {
     const versesHtml = passage.verses
       .map(item => {
         return (
@@ -791,11 +873,16 @@
 
     return (
       "<div class='otica-bible-tooltip-title'>" +
-      escapeHtml(label) +
-      " <span>" + escapeHtml(CONFIG.version) + "</span>" +
+        "<span class='otica-bible-tooltip-reference'>" +
+          escapeHtml(label) +
+        "</span>" +
+        " " +
+        "<select class='otica-bible-version-select' aria-label='Escolher versão bíblica'>" +
+          buildVersionOptionsHtml() +
+        "</select>" +
       "</div>" +
       "<div class='otica-bible-tooltip-body'>" +
-      versesHtml +
+        versesHtml +
       "</div>"
     );
   }
@@ -807,8 +894,10 @@
     }
   }
 
-  function showTooltip(target) {
-    removeTooltip();
+    async function renderTooltipContent(target) {
+    if (!tooltip || !target) {
+      return;
+    }
 
     const abbrev = target.getAttribute("data-book");
     const chapter = parseInt(target.getAttribute("data-chapter"), 10);
@@ -821,11 +910,48 @@
       return;
     }
 
-    tooltip = document.createElement("div");
-    tooltip.className = "otica-bible-tooltip";
     tooltip.innerHTML = buildTooltipHtml(label, passage);
 
+    const versionSelect = tooltip.querySelector(".otica-bible-version-select");
+
+    if (versionSelect) {
+      versionSelect.addEventListener("change", async function () {
+        const selectedVersion = versionSelect.value;
+
+        if (!selectedVersion || selectedVersion === currentVersion) {
+          return;
+        }
+
+        currentVersion = selectedVersion;
+
+        try {
+          await loadBibleVersion(currentVersion);
+          await renderTooltipContent(activeReferenceTarget);
+        } catch (error) {
+          console.error("Erro ao trocar versão bíblica:", error);
+        }
+      });
+    }
+  }
+
+    async function showTooltip(target) {
+    removeTooltip();
+
+    activeReferenceTarget = target;
+
+    try {
+      await loadBibleVersion(currentVersion);
+    } catch (error) {
+      console.error("Erro ao carregar versão bíblica:", error);
+      return;
+    }
+
+    tooltip = document.createElement("div");
+    tooltip.className = "otica-bible-tooltip";
+
     document.body.appendChild(tooltip);
+
+    await renderTooltipContent(target);
 
     const rect = target.getBoundingClientRect();
     const tooltipRect = tooltip.getBoundingClientRect();
@@ -844,6 +970,7 @@
     tooltip.style.top = top + "px";
     tooltip.style.left = left + "px";
   }
+
 
   function injectStyles() {
     if (document.getElementById("otica-bible-tooltip-style")) {
@@ -894,9 +1021,20 @@
         flex: 0 0 auto;
       }
 
-      .otica-bible-tooltip-title span {
-        font-weight: 400;
-        opacity: 0.9;
+      .otica-bible-tooltip-reference {
+        font-weight: 700;
+      }
+
+      .otica-bible-version-select {
+        margin-left: 6px;
+        padding: 2px 5px;
+        border-radius: 4px;
+        border: 1px solid rgba(255, 255, 255, 0.55);
+        background: #ffffff;
+        color: #005c6b;
+        font-size: 12px;
+        font-weight: 700;
+        cursor: pointer;
       }
 
       .otica-bible-tooltip-body {
@@ -1311,21 +1449,7 @@
     try {
       injectStyles();
 
-      const response = await fetch(CONFIG.bibleJsonUrl);
-
-      if (!response.ok) {
-        throw new Error("Falha ao carregar ACF.json. Status: " + response.status);
-      }
-
-      const bible = await response.json();
-
-      bibleByAbbrev = {};
-
-      bible.forEach(book => {
-        if (book && book.abbrev) {
-          bibleByAbbrev[String(book.abbrev).toLowerCase()] = book;
-        }
-      });
+            await loadBibleVersion(currentVersion);
 
       setupEvents();
       processPage();
