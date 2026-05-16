@@ -320,6 +320,42 @@ window.OTICA_VERSELINKER_BOOKS_EXTRA = {
      */
 
     // Mateus
+"mat": "mt",
+"mat.": "mt",
+
+// Lucas
+"luc": "lc",
+"luc.": "lc",
+
+// 2 Pedro
+"ii ped": "2pe",
+"ii ped.": "2pe",
+
+// 1 Samuel
+"i sam": "1sm",
+"i sam.": "1sm",
+
+// Marcos
+"mar": "mc",
+"mar.": "mc",
+
+// Judas
+"jud": "jd",
+"jud.": "jd",
+
+// Romanos
+"rom": "rm",
+"rom.": "rm",
+
+// 2 Crônicas
+"ii cron": "2cr",
+"ii cron.": "2cr",
+
+// 2 Samuel
+"ii sam": "2sm",
+"ii sam.": "2sm",
+
+    // Mateus
     "mt": "mt",
     "mt.": "mt",
     "mateus": "mt",
@@ -634,6 +670,41 @@ window.OTICA_VERSELINKER_BOOKS_EXTRA = {
     /*
      * Novo Testamento
      */
+    // Mateus
+"Mat",
+"Mat\\.",
+
+// Lucas
+"Luc",
+"Luc\\.",
+
+// 2 Pedro
+"II\\s*Ped",
+"II\\s*Ped\\.",
+
+// 1 Samuel
+"I\\s*Sam",
+"I\\s*Sam\\.",
+
+// Marcos
+"Mar",
+"Mar\\.",
+
+// Judas
+"Jud",
+"Jud\\.",
+
+// Romanos
+"Rom",
+"Rom\\.",
+
+// 2 Crônicas
+"II\\s*Cron",
+"II\\s*Cron\\.",
+
+// 2 Samuel
+"II\\s*Sam",
+"II\\s*Sam\\."
     "Mateus", "Mt",
     "Marcos", "Mc",
     "Lucas", "Lc",
