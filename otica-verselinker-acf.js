@@ -1,10 +1,18 @@
 /*
- * Versão estável: v11
- * Recursos:
+ * Versão de teste - Ótica Reformada VerseLinker - ACF
+ *
+ * Mantém:
  * - reconhecimento de referências bíblicas em postagens do Blogger
  * - tooltip ACF via ACF.json do GitHub
  * - suporte a PC e celular
  * - rolagem interna para textos longos
+ * - cabeçalho fixo na tooltip
+ * - livros de um só capítulo: Jd 24 = Judas 1:24
+ * - referências sem livro herdam o último livro citado
+ *
+ * Novo:
+ * - lê nomes, siglas, padrões e nomes de exibição do arquivo externo:
+ *   otica-verselinker-livros.js
  */
 
 (function () {
@@ -308,6 +316,19 @@
     "revelação": "ap"
   };
 
+  /*
+   * Dados externos vindos de otica-verselinker-livros.js
+   * Esse arquivo deve ser carregado ANTES deste script no Blogger.
+   */
+  const EXTERNAL_BOOKS = window.OTICA_VERSELINKER_BOOKS_EXTRA || {};
+
+  if (
+    EXTERNAL_BOOKS.aliases &&
+    typeof EXTERNAL_BOOKS.aliases === "object"
+  ) {
+    Object.assign(BOOK_ALIASES, EXTERNAL_BOOKS.aliases);
+  }
+
   const SKIP_TAGS = new Set([
     "script",
     "style",
@@ -349,6 +370,14 @@
     ".otica-bible-tooltip"
   ].join(",");
 
+  const SINGLE_CHAPTER_BOOKS = new Set([
+    "ob",
+    "fm",
+    "2jo",
+    "3jo",
+    "jd"
+  ]);
+
   let bibleByAbbrev = {};
   let tooltip = null;
 
@@ -389,13 +418,116 @@
     return BOOK_ALIASES[original] || BOOK_ALIASES[normalized] || null;
   }
 
+  function getBookDisplayName(abbrev) {
+    const names = {
+      "gn": "Gênesis",
+      "ex": "Êxodo",
+      "lv": "Levítico",
+      "nm": "Números",
+      "dt": "Deuteronômio",
+      "js": "Josué",
+      "jz": "Juízes",
+      "rt": "Rute",
+      "1sm": "1 Samuel",
+      "2sm": "2 Samuel",
+      "1rs": "1 Reis",
+      "2rs": "2 Reis",
+      "1cr": "1 Crônicas",
+      "2cr": "2 Crônicas",
+      "ed": "Esdras",
+      "ne": "Neemias",
+      "et": "Ester",
+      "jó": "Jó",
+      "sl": "Salmos",
+      "pv": "Provérbios",
+      "ec": "Eclesiastes",
+      "ct": "Cantares",
+      "is": "Isaías",
+      "jr": "Jeremias",
+      "lm": "Lamentações",
+      "ez": "Ezequiel",
+      "dn": "Daniel",
+      "os": "Oseias",
+      "jl": "Joel",
+      "am": "Amós",
+      "ob": "Obadias",
+      "jn": "Jonas",
+      "mq": "Miqueias",
+      "na": "Naum",
+      "hc": "Habacuque",
+      "sf": "Sofonias",
+      "ag": "Ageu",
+      "zc": "Zacarias",
+      "ml": "Malaquias",
+      "mt": "Mateus",
+      "mc": "Marcos",
+      "lc": "Lucas",
+      "jo": "João",
+      "atos": "Atos",
+      "rm": "Romanos",
+      "1co": "1 Coríntios",
+      "2co": "2 Coríntios",
+      "gl": "Gálatas",
+      "ef": "Efésios",
+      "fp": "Filipenses",
+      "cl": "Colossenses",
+      "1ts": "1 Tessalonicenses",
+      "2ts": "2 Tessalonicenses",
+      "1tm": "1 Timóteo",
+      "2tm": "2 Timóteo",
+      "tt": "Tito",
+      "fm": "Filemom",
+      "hb": "Hebreus",
+      "tg": "Tiago",
+      "1pe": "1 Pedro",
+      "2pe": "2 Pedro",
+      "1jo": "1 João",
+      "2jo": "2 João",
+      "3jo": "3 João",
+      "jd": "Judas",
+      "ap": "Apocalipse"
+    };
+
+    const externalDisplayNames =
+      EXTERNAL_BOOKS.displayNames &&
+      typeof EXTERNAL_BOOKS.displayNames === "object"
+        ? EXTERNAL_BOOKS.displayNames
+        : {};
+
+    return externalDisplayNames[abbrev] || names[abbrev] || abbrev;
+  }
+
+  function buildFullReferenceLabel(abbrev, chapter, verses) {
+    const bookName = getBookDisplayName(abbrev);
+    const cleanVerses = String(verses || "").replace(/\s+/g, "");
+
+    if (SINGLE_CHAPTER_BOOKS.has(abbrev) && chapter === 1 && cleanVerses) {
+      return bookName + " " + cleanVerses;
+    }
+
+    if (cleanVerses) {
+      return bookName + " " + chapter + ":" + cleanVerses;
+    }
+
+    return bookName + " " + chapter;
+  }
+
   function buildReferenceRegex() {
     const bookNames = [
       "1\\s*Pedro",
       "2\\s*Pedro",
+
       "1\\s*Jo[aã]o",
       "2\\s*Jo[aã]o",
       "3\\s*Jo[aã]o",
+
+      "1\\s*Jo",
+      "2\\s*Jo",
+      "3\\s*Jo",
+      "1Jo",
+      "2Jo",
+      "3Jo",
+
       "1\\s*Cor[ií]ntios",
       "2\\s*Cor[ií]ntios",
       "1\\s*Tessalonicenses",
@@ -531,6 +663,12 @@
       "Apocalipse",
       "Ap"
     ];
+
+    const externalPatterns = Array.isArray(EXTERNAL_BOOKS.patterns)
+      ? EXTERNAL_BOOKS.patterns
+      : [];
+
+    bookNames.push(...externalPatterns);
 
     const bookPattern = bookNames.join("|");
 
@@ -835,13 +973,19 @@
       const referenceText = fullMatch.slice(prefix.length);
 
       const abbrev = getBookAbbrev(rawBook);
-      const chapter = parseInt(rawChapter, 10);
+      let chapter = parseInt(rawChapter, 10);
+      let verses = rawVerses;
 
       if (!abbrev || !Number.isInteger(chapter)) {
         continue;
       }
 
-      const passage = getPassage(abbrev, chapter, rawVerses);
+      if (SINGLE_CHAPTER_BOOKS.has(abbrev) && !verses) {
+        verses = String(chapter);
+        chapter = 1;
+      }
+
+      const passage = getPassage(abbrev, chapter, verses);
 
       if (!passage) {
         continue;
@@ -856,8 +1000,8 @@
       span.textContent = referenceText;
       span.setAttribute("data-book", abbrev);
       span.setAttribute("data-chapter", String(chapter));
-      span.setAttribute("data-verses", rawVerses.replace(/\s+/g, ""));
-      span.setAttribute("data-label", referenceText);
+      span.setAttribute("data-verses", verses.replace(/\s+/g, ""));
+      span.setAttribute("data-label", buildFullReferenceLabel(abbrev, chapter, verses));
 
       fragment.appendChild(span);
 
@@ -873,6 +1017,141 @@
     node.parentNode.replaceChild(fragment, node);
 
     return found;
+  }
+
+  function processInheritedReferences(root) {
+    let total = 0;
+
+    function processContainer(container) {
+      let lastBibleRef = null;
+      const children = Array.from(container.childNodes);
+
+      children.forEach(child => {
+        if (
+          child.nodeType === Node.ELEMENT_NODE &&
+          child.classList &&
+          child.classList.contains("otica-bible-ref")
+        ) {
+          lastBibleRef = child;
+          return;
+        }
+
+        if (child.nodeType === Node.TEXT_NODE) {
+          if (!lastBibleRef) {
+            return;
+          }
+
+          const text = child.nodeValue;
+
+          if (!text || !text.trim()) {
+            return;
+          }
+
+          if (!/[;；]\s*\d{1,3}\s*[:.]\s*\d{1,3}/.test(text)) {
+            return;
+          }
+
+          const inheritedBook = lastBibleRef.getAttribute("data-book");
+
+          if (!inheritedBook) {
+            return;
+          }
+
+          const continuationRegex =
+            /([;；]\s*)(\d{1,3})\s*[:.]\s*(\d{1,3}(?:\s*[-–—]\s*\d{1,3})?(?:\s*,\s*\d{1,3}(?:\s*[-–—]\s*\d{1,3})?)*)/g;
+
+          let match;
+          let lastIndex = 0;
+          let found = 0;
+          const fragment = document.createDocumentFragment();
+
+          while ((match = continuationRegex.exec(text)) !== null) {
+            const prefix = match[1] || "";
+            const rawChapter = match[2] || "";
+            const rawVerses = match[3] || "";
+            const chapter = parseInt(rawChapter, 10);
+
+            if (!Number.isInteger(chapter)) {
+              continue;
+            }
+
+            const passage = getPassage(inheritedBook, chapter, rawVerses);
+
+            if (!passage) {
+              continue;
+            }
+
+            const referenceStart = match.index + prefix.length;
+            const referenceEnd = match.index + match[0].length;
+            const referenceText = text.slice(referenceStart, referenceEnd);
+
+            fragment.appendChild(
+              document.createTextNode(text.slice(lastIndex, referenceStart))
+            );
+
+            const span = document.createElement("span");
+            span.className = "otica-bible-ref";
+            span.textContent = referenceText;
+            span.setAttribute("data-book", inheritedBook);
+            span.setAttribute("data-chapter", String(chapter));
+            span.setAttribute("data-verses", rawVerses.replace(/\s+/g, ""));
+            span.setAttribute("data-label", buildFullReferenceLabel(inheritedBook, chapter, rawVerses));
+
+            fragment.appendChild(span);
+
+            lastIndex = referenceEnd;
+            found++;
+            total++;
+          }
+
+          if (!found) {
+            return;
+          }
+
+          fragment.appendChild(document.createTextNode(text.slice(lastIndex)));
+          child.parentNode.replaceChild(fragment, child);
+
+          return;
+        }
+
+        if (child.nodeType === Node.ELEMENT_NODE) {
+          const tag = child.tagName.toLowerCase();
+
+          if (SKIP_TAGS.has(tag)) {
+            return;
+          }
+
+          if (child.closest && child.closest(".otica-bible-tooltip")) {
+            return;
+          }
+
+          if (
+            child.matches &&
+            child.matches("script, style, iframe, noscript, textarea, input, select, option, code, pre")
+          ) {
+            return;
+          }
+
+          processContainer(child);
+
+          const refs = child.querySelectorAll
+            ? child.querySelectorAll(".otica-bible-ref")
+            : [];
+
+          if (refs && refs.length) {
+            lastBibleRef = refs[refs.length - 1];
+          }
+        }
+      });
+    }
+
+    processContainer(root);
+
+    if (CONFIG.debug) {
+      console.log("Ótica Reformada VerseLinker ACF: referências herdadas:", total);
+    }
+
+    return total;
   }
 
   function processPage() {
@@ -957,9 +1236,16 @@
       total += processTextNode(textNode, referenceRegex);
     });
 
+    let inheritedTotal = 0;
+
+    roots.forEach(root => {
+      inheritedTotal += processInheritedReferences(root) || 0;
+    });
+
     console.log("Ótica Reformada VerseLinker ACF: áreas analisadas:", roots.length);
     console.log("Ótica Reformada VerseLinker ACF: nós de texto analisados:", textNodes.length);
     console.log("Ótica Reformada VerseLinker ACF: referências processadas:", total);
+    console.log("Ótica Reformada VerseLinker ACF: referências herdadas:", inheritedTotal);
   }
 
   function setupEvents() {
