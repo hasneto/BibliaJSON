@@ -530,7 +530,7 @@
     return externalDisplayNames[abbrev] || names[abbrev] || abbrev;
   }
 
-    async function loadBibleVersion(version) {
+      async function loadBibleVersion(version) {
     if (bibleCache[version]) {
       bibleByAbbrev = bibleCache[version];
       return;
@@ -553,10 +553,47 @@
     const bible = await response.json();
     const mappedBible = {};
 
-    bible.forEach(book => {
-      if (book && book.abbrev) {
-        mappedBible[String(book.abbrev).toLowerCase()] = book;
+    function addBookKey(key, book) {
+      if (!key) {
+        return;
       }
+
+      mappedBible[String(key).toLowerCase()] = book;
+    }
+
+    bible.forEach(book => {
+      if (!book || !book.abbrev) {
+        return;
+      }
+
+      const rawAbbrev = String(book.abbrev);
+      const rawName = String(book.name || "");
+
+      /*
+       * Mapeia a abreviação exatamente como vem no JSON:
+       * Ex.: Gn, Êx, At, Rm, 1Co
+       */
+      addBookKey(rawAbbrev, book);
+
+      /*
+       * Mapeia a abreviação normalizada:
+       * Ex.: Êx -> ex
+       */
+      addBookKey(normalizeBookName(rawAbbrev), book);
+
+      /*
+       * Mapeia para a chave canônica usada pelo script:
+       * Ex.: At -> atos
+       * Ex.: Êx -> ex
+       */
+      addBookKey(getBookAbbrev(rawAbbrev), book);
+
+      /*
+       * Mapeia também pelo nome completo do livro:
+       * Ex.: Atos -> atos
+       * Ex.: Êxodo -> ex
+       */
+      addBookKey(getBookAbbrev(rawName), book);
     });
 
     bibleCache[version] = mappedBible;
