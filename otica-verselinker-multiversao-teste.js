@@ -13,6 +13,8 @@
  * Novo:
  * - lê nomes, siglas, padrões e nomes de exibição do arquivo externo:
  *   otica-verselinker-livros.js
+ * - seletor de versões bíblicas na tooltip
+ * - suporte a intervalo de capítulos, ex.: 1 Coríntios 12—14
  */
 
 (function () {
@@ -408,6 +410,8 @@
     "jd"
   ]);
 
+  const MAX_CHAPTER_RANGE = 5;
+
   let bibleByAbbrev = {};
   let tooltip = null;
   let activeReferenceTarget = null;
@@ -530,7 +534,7 @@
     return externalDisplayNames[abbrev] || names[abbrev] || abbrev;
   }
 
-      async function loadBibleVersion(version) {
+  async function loadBibleVersion(version) {
     if (bibleCache[version]) {
       bibleByAbbrev = bibleCache[version];
       return;
@@ -569,30 +573,9 @@
       const rawAbbrev = String(book.abbrev);
       const rawName = String(book.name || "");
 
-      /*
-       * Mapeia a abreviação exatamente como vem no JSON:
-       * Ex.: Gn, Êx, At, Rm, 1Co
-       */
       addBookKey(rawAbbrev, book);
-
-      /*
-       * Mapeia a abreviação normalizada:
-       * Ex.: Êx -> ex
-       */
       addBookKey(normalizeBookName(rawAbbrev), book);
-
-      /*
-       * Mapeia para a chave canônica usada pelo script:
-       * Ex.: At -> atos
-       * Ex.: Êx -> ex
-       */
       addBookKey(getBookAbbrev(rawAbbrev), book);
-
-      /*
-       * Mapeia também pelo nome completo do livro:
-       * Ex.: Atos -> atos
-       * Ex.: Êxodo -> ex
-       */
       addBookKey(getBookAbbrev(rawName), book);
     });
 
@@ -616,6 +599,11 @@
       .join("");
   }
   
+  function buildFullChapterRangeLabel(abbrev, startChapter, endChapter) {
+    const bookName = getBookDisplayName(abbrev);
+    return bookName + " " + startChapter + "–" + endChapter;
+  }
+
   function buildFullReferenceLabel(abbrev, chapter, verses) {
     const bookName = getBookDisplayName(abbrev);
     const cleanVerses = String(verses || "").replace(/\s+/g, "");
@@ -792,20 +780,24 @@
     const bookPattern = bookNames.join("|");
 
     return new RegExp(
-      "(^|[^\\p{L}\\p{N}_])" +
+      "(^|[^\p{L}\p{N}_])" +
         "(" + bookPattern + ")" +
-        "\\.?" +
-        "\\s*" +
-        "(\\d{1,3})" +
+        "\.?" +
+        "\s*" +
+        "(\d{1,3})" +
         "(?:" +
-          "\\s*[:\\.]\\s*" +
+          "\s*[-–—]\s*" +
+          "(\d{1,3})" +
+        ")?" +
+        "(?:" +
+          "\s*[:\.]\s*" +
           "(" +
-            "\\d{1,3}" +
-            "(?:\\s*[-–—]\\s*\\d{1,3})?" +
-            "(?:\\s*,\\s*\\d{1,3}(?:\\s*[-–—]\\s*\\d{1,3})?)*" +
+            "\d{1,3}" +
+            "(?:\s*[-–—]\s*\d{1,3})?" +
+            "(?:\s*,\s*\d{1,3}(?:\s*[-–—]\s*\d{1,3})?)*" +
           ")" +
         ")?" +
-        "(?![\\p{L}\\p{N}_])",
+        "(?![\p{L}\p{N}_])",
       "giu"
     );
   }
@@ -896,17 +888,97 @@
     };
   }
 
-    function buildTooltipHtml(label, passage) {
-    const versesHtml = passage.verses
-      .map(item => {
-        return (
-          "<p class='otica-bible-tooltip-verse'>" +
-          "<sup>" + escapeHtml(item.number) + "</sup> " +
-          escapeHtml(item.text) +
-          "</p>"
-        );
-      })
-      .join("");
+    function getPassageRange(abbrev, startChapter, endChapter) {
+    const book = bibleByAbbrev[abbrev];
+
+    if (!book) {
+      log("Livro não encontrado no JSON:", abbrev);
+      return null;
+    }
+
+    if (
+      !Number.isInteger(startChapter) ||
+      !Number.isInteger(endChapter) ||
+      startChapter < 1 ||
+      endChapter < startChapter
+    ) {
+      return null;
+    }
+
+    const chapterCount = endChapter - startChapter + 1;
+
+    if (chapterCount > MAX_CHAPTER_RANGE) {
+      log(
+        "Intervalo de capítulos muito grande:",
+        abbrev,
+        startChapter,
+        endChapter
+      );
+      return null;
+    }
+
+    const chapters = [];
+
+    for (let chapterNumber = startChapter; chapterNumber <= endChapter; chapterNumber++) {
+      const chapter = book.chapters[chapterNumber - 1];
+
+      if (!Array.isArray(chapter)) {
+        log("Capítulo não encontrado:", abbrev, chapterNumber);
+        return null;
+      }
+
+      chapters.push({
+        number: chapterNumber,
+        verses: chapter.map((text, index) => ({
+          number: index + 1,
+          text
+        }))
+      });
+    }
+
+    return {
+      bookName: book.name || abbrev,
+      chapters
+    };
+  }
+
+  function buildTooltipHtml(label, passage) {
+    let bodyHtml = "";
+
+    if (Array.isArray(passage.chapters)) {
+      bodyHtml = passage.chapters
+        .map(chapter => {
+          const versesHtml = chapter.verses
+            .map(item => {
+              return (
+                "<p class='otica-bible-tooltip-verse'>" +
+                "<sup>" + escapeHtml(item.number) + "</sup> " +
+                escapeHtml(item.text) +
+                "</p>"
+              );
+            })
+            .join("");
+
+          return (
+            "<div class='otica-bible-tooltip-chapter'>Capítulo " +
+            escapeHtml(chapter.number) +
+            "</div>" +
+            versesHtml
+          );
+        })
+        .join("");
+    } else {
+      bodyHtml = passage.verses
+        .map(item => {
+          return (
+            "<p class='otica-bible-tooltip-verse'>" +
+            "<sup>" + escapeHtml(item.number) + "</sup> " +
+            escapeHtml(item.text) +
+            "</p>"
+          );
+        })
+        .join("");
+    }
 
     return (
       "<div class='otica-bible-tooltip-title'>" +
@@ -919,7 +991,7 @@
         "</select>" +
       "</div>" +
       "<div class='otica-bible-tooltip-body'>" +
-        versesHtml +
+        bodyHtml +
       "</div>"
     );
   }
@@ -931,17 +1003,26 @@
     }
   }
 
-    async function renderTooltipContent(target) {
+  async function renderTooltipContent(target) {
     if (!tooltip || !target) {
       return;
     }
 
     const abbrev = target.getAttribute("data-book");
     const chapter = parseInt(target.getAttribute("data-chapter"), 10);
+    const endChapterRaw = target.getAttribute("data-end-chapter");
+    const endChapter = endChapterRaw ? parseInt(endChapterRaw, 10) : null;
     const verses = target.getAttribute("data-verses") || "";
     const label = target.getAttribute("data-label") || target.textContent;
 
-    const passage = getPassage(abbrev, chapter, verses);
+    const hasChapterRange =
+      Number.isInteger(endChapter) &&
+      endChapter > chapter &&
+      !verses;
+
+    const passage = hasChapterRange
+      ? getPassageRange(abbrev, chapter, endChapter)
+      : getPassage(abbrev, chapter, verses);
 
     if (!passage) {
       return;
@@ -971,7 +1052,7 @@
     }
   }
 
-    async function showTooltip(target) {
+  async function showTooltip(target) {
     removeTooltip();
 
     activeReferenceTarget = target;
@@ -1081,6 +1162,18 @@
         overscroll-behavior: contain;
       }
 
+      .otica-bible-tooltip-chapter {
+        margin: 10px 0 6px 0;
+        padding-bottom: 4px;
+        color: #005c6b;
+        font-weight: 700;
+        border-bottom: 1px solid #e5e5e5;
+      }
+
+      .otica-bible-tooltip-chapter:first-child {
+        margin-top: 0;
+      }
+
       .otica-bible-tooltip-verse {
         margin: 0 0 8px 0;
       }
@@ -1142,25 +1235,38 @@
       const prefix = match[1] || "";
       const rawBook = match[2] || "";
       const rawChapter = match[3] || "";
-      const rawVerses = match[4] || "";
+      const rawEndChapter = match[4] || "";
+      const rawVerses = match[5] || "";
 
       const referenceStart = match.index + prefix.length;
       const referenceText = fullMatch.slice(prefix.length);
 
       const abbrev = getBookAbbrev(rawBook);
       let chapter = parseInt(rawChapter, 10);
+      let endChapter = rawEndChapter ? parseInt(rawEndChapter, 10) : null;
       let verses = rawVerses;
 
       if (!abbrev || !Number.isInteger(chapter)) {
         continue;
       }
 
-      if (SINGLE_CHAPTER_BOOKS.has(abbrev) && !verses) {
+      const hasChapterRange =
+        Number.isInteger(endChapter) &&
+        endChapter > chapter &&
+        !verses;
+
+      if (rawEndChapter && !hasChapterRange) {
+        continue;
+      }
+
+      if (SINGLE_CHAPTER_BOOKS.has(abbrev) && !verses && !hasChapterRange) {
         verses = String(chapter);
         chapter = 1;
       }
 
-      const passage = getPassage(abbrev, chapter, verses);
+      const passage = hasChapterRange
+        ? getPassageRange(abbrev, chapter, endChapter)
+        : getPassage(abbrev, chapter, verses);
 
       if (!passage) {
         continue;
@@ -1176,7 +1282,19 @@
       span.setAttribute("data-book", abbrev);
       span.setAttribute("data-chapter", String(chapter));
       span.setAttribute("data-verses", verses.replace(/\s+/g, ""));
-      span.setAttribute("data-label", buildFullReferenceLabel(abbrev, chapter, verses));
+
+      if (hasChapterRange) {
+        span.setAttribute("data-end-chapter", String(endChapter));
+        span.setAttribute(
+          "data-label",
+          buildFullChapterRangeLabel(abbrev, chapter, endChapter)
+        );
+      } else {
+        span.setAttribute(
+          "data-label",
+          buildFullReferenceLabel(abbrev, chapter, verses)
+        );
+      }
 
       fragment.appendChild(span);
 
