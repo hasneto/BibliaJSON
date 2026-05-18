@@ -410,7 +410,79 @@
     "jd"
   ]);
 
-  const MAX_CHAPTER_RANGE = 5;
+  const CHAPTER_RANGE_PREVIEW_LIMIT = 3;
+
+  const BIBLE_ONLINE_BASE_URL =
+    "https://www.oticareformada.com/p/biblia-sagrada-online.html";
+
+  const BOOK_NUMBERS = {
+    "gn": 1,
+    "ex": 2,
+    "lv": 3,
+    "nm": 4,
+    "dt": 5,
+    "js": 6,
+    "jz": 7,
+    "rt": 8,
+    "1sm": 9,
+    "2sm": 10,
+    "1rs": 11,
+    "2rs": 12,
+    "1cr": 13,
+    "2cr": 14,
+    "ed": 15,
+    "ne": 16,
+    "et": 17,
+    "jó": 18,
+    "sl": 19,
+    "pv": 20,
+    "ec": 21,
+    "ct": 22,
+    "is": 23,
+    "jr": 24,
+    "lm": 25,
+    "ez": 26,
+    "dn": 27,
+    "os": 28,
+    "jl": 29,
+    "am": 30,
+    "ob": 31,
+    "jn": 32,
+    "mq": 33,
+    "na": 34,
+    "hc": 35,
+    "sf": 36,
+    "ag": 37,
+    "zc": 38,
+    "ml": 39,
+    "mt": 40,
+    "mc": 41,
+    "lc": 42,
+    "jo": 43,
+    "atos": 44,
+    "rm": 45,
+    "1co": 46,
+    "2co": 47,
+    "gl": 48,
+    "ef": 49,
+    "fp": 50,
+    "cl": 51,
+    "1ts": 52,
+    "2ts": 53,
+    "1tm": 54,
+    "2tm": 55,
+    "tt": 56,
+    "fm": 57,
+    "hb": 58,
+    "tg": 59,
+    "1pe": 60,
+    "2pe": 61,
+    "1jo": 62,
+    "2jo": 63,
+    "3jo": 64,
+    "jd": 65,
+    "ap": 66
+  };
 
   let bibleByAbbrev = {};
   let tooltip = null;
@@ -602,6 +674,21 @@
   function buildFullChapterRangeLabel(abbrev, startChapter, endChapter) {
     const bookName = getBookDisplayName(abbrev);
     return bookName + " " + startChapter + "–" + endChapter;
+  }
+
+  function buildBibleOnlineUrl(abbrev, chapter) {
+    const bookNumber = BOOK_NUMBERS[abbrev];
+
+    if (!bookNumber || !chapter) {
+      return null;
+    }
+
+    return (
+      BIBLE_ONLINE_BASE_URL +
+      "?versao=" + encodeURIComponent(currentVersion) +
+      "&livro=" + encodeURIComponent(bookNumber) +
+      "&capitulo=" + encodeURIComponent(chapter)
+    );
   }
 
   function buildFullReferenceLabel(abbrev, chapter, verses) {
@@ -887,8 +974,7 @@
       }))
     };
   }
-
-    function getPassageRange(abbrev, startChapter, endChapter) {
+  function getPassageRange(abbrev, startChapter, endChapter) {
     const book = bibleByAbbrev[abbrev];
 
     if (!book) {
@@ -905,21 +991,18 @@
       return null;
     }
 
-    const chapterCount = endChapter - startChapter + 1;
-
-    if (chapterCount > MAX_CHAPTER_RANGE) {
-      log(
-        "Intervalo de capítulos muito grande:",
-        abbrev,
-        startChapter,
-        endChapter
-      );
-      return null;
-    }
+    const displayEndChapter = Math.min(
+      endChapter,
+      startChapter + CHAPTER_RANGE_PREVIEW_LIMIT - 1
+    );
 
     const chapters = [];
 
-    for (let chapterNumber = startChapter; chapterNumber <= endChapter; chapterNumber++) {
+    for (
+      let chapterNumber = startChapter;
+      chapterNumber <= displayEndChapter;
+      chapterNumber++
+    ) {
       const chapter = book.chapters[chapterNumber - 1];
 
       if (!Array.isArray(chapter)) {
@@ -936,9 +1019,17 @@
       });
     }
 
+    const hasContinuation = endChapter > displayEndChapter;
+    const continueChapter = displayEndChapter + 1;
+
     return {
       bookName: book.name || abbrev,
-      chapters
+      chapters,
+      hasContinuation,
+      continueChapter: hasContinuation ? continueChapter : null,
+      continueUrl: hasContinuation
+        ? buildBibleOnlineUrl(abbrev, continueChapter)
+        : null
     };
   }
 
@@ -967,6 +1058,18 @@
           );
         })
         .join("");
+
+      if (passage.hasContinuation && passage.continueUrl) {
+        bodyHtml +=
+          "<div class='otica-bible-tooltip-continue'>" +
+            "<span>...</span> " +
+            "<a href='" +
+              escapeHtml(passage.continueUrl) +
+              "' target='_blank' rel='noopener noreferrer'>" +
+              "clique aqui para continuar" +
+            "</a>" +
+          "</div>";
+      }
     } else {
       bodyHtml = passage.verses
         .map(item => {
@@ -1180,7 +1283,30 @@
         margin-top: 0;
       }
 	  
-	        .otica-bible-tooltip-footer {
+
+      .otica-bible-tooltip-continue {
+        margin: 12px 0 4px 0;
+        padding-top: 8px;
+        border-top: 1px solid #e5e5e5;
+        text-align: center;
+        font-size: 13px;
+        font-weight: 700;
+      }
+
+      .otica-bible-tooltip-continue span {
+        color: #555555;
+      }
+
+      .otica-bible-tooltip-continue a {
+        color: #005c6b;
+        text-decoration: none;
+      }
+
+      .otica-bible-tooltip-continue a:hover {
+        text-decoration: underline;
+      }
+
+      .otica-bible-tooltip-footer {
         flex: 0 0 auto;
         padding: 7px 10px;
         background: #f3f7f8;
