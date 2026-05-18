@@ -1391,12 +1391,33 @@
       const rawVerses = match[5] || "";
 
       const referenceStart = match.index + prefix.length;
-      const referenceText = fullMatch.slice(prefix.length);
+      let referenceEnd = match.index + fullMatch.length;
+      let referenceText = fullMatch.slice(prefix.length);
 
       const abbrev = getBookAbbrev(rawBook);
       let chapter = parseInt(rawChapter, 10);
       let endChapter = rawEndChapter ? parseInt(rawEndChapter, 10) : null;
       let verses = rawVerses;
+
+	  let singleChapterExtraVerses = "";
+
+      if (
+        SINGLE_CHAPTER_BOOKS.has(abbrev) &&
+        !rawEndChapter &&
+        !rawVerses
+      ) {
+        const restAfterMatch = text.slice(referenceEnd);
+
+        const extraVersesMatch = restAfterMatch.match(
+          /^(\s*,\s*\d{1,3}(?:\s*[-–—]\s*\d{1,3})?(?:\s*,\s*\d{1,3}(?:\s*[-–—]\s*\d{1,3})?)*)/
+        );
+
+        if (extraVersesMatch) {
+          singleChapterExtraVerses = extraVersesMatch[1];
+          referenceText += singleChapterExtraVerses;
+          referenceEnd += singleChapterExtraVerses.length;
+        }
+      }
 
       if (!abbrev || !Number.isInteger(chapter)) {
         continue;
@@ -1412,7 +1433,7 @@
       }
 
       if (SINGLE_CHAPTER_BOOKS.has(abbrev) && !verses && !hasChapterRange) {
-        verses = String(chapter);
+        verses = String(chapter) + singleChapterExtraVerses;
         chapter = 1;
       }
 
@@ -1450,7 +1471,7 @@
 
       fragment.appendChild(span);
 
-      lastIndex = match.index + fullMatch.length;
+      lastIndex = referenceEnd;
       found++;
     }
 
