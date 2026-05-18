@@ -980,7 +980,7 @@
         .join("");
     }
 
-    return (
+        return (
       "<div class='otica-bible-tooltip-title'>" +
         "<span class='otica-bible-tooltip-reference'>" +
           escapeHtml(label) +
@@ -992,6 +992,12 @@
       "</div>" +
       "<div class='otica-bible-tooltip-body'>" +
         bodyHtml +
+      "</div>" +
+      "<div class='otica-bible-tooltip-footer'>" +
+        "Desenvolvido por " +
+        "<a href='https://www.oticareformada.com/' target='_blank' rel='noopener noreferrer'>" +
+          "oticareformada.com" +
+        "</a>" +
       "</div>"
     );
   }
@@ -1172,6 +1178,26 @@
 
       .otica-bible-tooltip-chapter:first-child {
         margin-top: 0;
+      }
+	  
+	        .otica-bible-tooltip-footer {
+        flex: 0 0 auto;
+        padding: 7px 10px;
+        background: #f3f7f8;
+        border-top: 1px solid #dce6e8;
+        text-align: center;
+        font-size: 11px;
+        color: #4a4a4a;
+      }
+
+      .otica-bible-tooltip-footer a {
+        color: #005c6b;
+        font-weight: 700;
+        text-decoration: none;
+      }
+
+      .otica-bible-tooltip-footer a:hover {
+        text-decoration: underline;
       }
 
       .otica-bible-tooltip-verse {
