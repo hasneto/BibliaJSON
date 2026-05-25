@@ -703,7 +703,7 @@ window.OTICA_VERSELINKER_BOOKS_EXTRA = {
 "2\\s*Pd",
 "2Pd",
 "II\\s*Pd",
-"II\\s*Pd\\."
+"II\\s*Pd\\.",
 
     "1\\s*Jo[aã]o", "1Jo[aã]o", "1\\s*Jo", "1Jo", "I\\s*Jo[aã]o",
     "2\\s*Jo[aã]o", "2Jo[aã]o", "2\\s*Jo", "2Jo", "II\\s*Jo[aã]o",
