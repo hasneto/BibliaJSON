@@ -527,6 +527,12 @@ window.OTICA_VERSELINKER_BOOKS_EXTRA = {
     "1 pedro": "1pe",
     "i pedro": "1pe",
     "primeiro pedro": "1pe",
+"1pd": "1pe",
+"1 pd": "1pe",
+"1pd.": "1pe",
+"1 pd.": "1pe",
+"i pd": "1pe",
+"i pd.": "1pe",
 
     // 2 Pedro
     "2pe": "2pe",
@@ -538,6 +544,12 @@ window.OTICA_VERSELINKER_BOOKS_EXTRA = {
     "ii ped.": "2pe",
     "ii pedro": "2pe",
     "segundo pedro": "2pe",
+"2pd": "2pe",
+"2 pd": "2pe",
+"2pd.": "2pe",
+"2 pd.": "2pe",
+"ii pd": "2pe",
+"ii pd.": "2pe",
 
     // 1 João
     "1jo": "1jo",
@@ -682,6 +694,14 @@ window.OTICA_VERSELINKER_BOOKS_EXTRA = {
 
     "1\\s*Pedro", "1Pedro", "1\\s*Pe", "1Pe", "I\\s*Pedro",
     "2\\s*Pedro", "2Pedro", "2\\s*Pe", "2Pe", "II\\s*Pedro", "II\\s*Ped", "II\\s*Ped\\.",
+"1\\s*Pd",
+"1Pd",
+"I\\s*Pd",
+"I\\s*Pd\\.",
+"2\\s*Pd",
+"2Pd",
+"II\\s*Pd",
+"II\\s*Pd\\."
 
     "1\\s*Jo[aã]o", "1Jo[aã]o", "1\\s*Jo", "1Jo", "I\\s*Jo[aã]o",
     "2\\s*Jo[aã]o", "2Jo[aã]o", "2\\s*Jo", "2Jo", "II\\s*Jo[aã]o",
