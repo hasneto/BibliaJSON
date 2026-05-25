@@ -449,6 +449,12 @@ window.OTICA_VERSELINKER_BOOKS_EXTRA = {
     "i tess.": "1ts",
     "i tessalonicenses": "1ts",
     "primeiro tessalonicenses": "1ts",
+    "1tss": "1ts",
+"1 tss": "1ts",
+"1tss.": "1ts",
+"1 tss.": "1ts",
+"i tss": "1ts",
+"i tss.": "1ts",
 
     // 2 Tessalonicenses
     "2ts": "2ts",
@@ -462,6 +468,12 @@ window.OTICA_VERSELINKER_BOOKS_EXTRA = {
     "ii tess.": "2ts",
     "ii tessalonicenses": "2ts",
     "segundo tessalonicenses": "2ts",
+    "2tss": "2ts",
+"2 tss": "2ts",
+"2tss.": "2ts",
+"2 tss.": "2ts",
+"ii tss": "2ts",
+"ii tss.": "2ts",
 
     // 1 Timóteo
     "1tm": "1tm",
@@ -679,6 +691,11 @@ window.OTICA_VERSELINKER_BOOKS_EXTRA = {
 
     "1\\s*Tessalonicenses", "1Tessalonicenses", "1\\s*Ts", "1Ts", "I\\s*Tessalonicenses",
     "I\\s*Ts", "I\\s*Tess", "I\\s*Tess\\.", "I\\s*Tessalonicenses",
+        "1\\s*Tessalonicenses", "1Tessalonicenses", "1\\s*Ts", "1Ts", "1\\s*Tss", "1Tss", "I\\s*Tessalonicenses",
+    "I\\s*Ts", "I\\s*Tess", "I\\s*Tess\\.", "I\\s*Tss", "I\\s*Tss\\.", "I\\s*Tessalonicenses",
+
+    "2\\s*Tessalonicenses", "2Tessalonicenses", "2\\s*Ts", "2Ts", "2\\s*Tss", "2Tss", "II\\s*Tessalonicenses",
+    "II\\s*Ts", "II\\s*Tess", "II\\s*Tess\\.", "II\\s*Tss", "II\\s*Tss\\.", "II\\s*Tessalonicenses",
 
     "2\\s*Tessalonicenses", "2Tessalonicenses", "2\\s*Ts", "2Ts", "II\\s*Tessalonicenses",
     "II\\s*Ts", "II\\s*Tess", "II\\s*Tess\\.", "II\\s*Tessalonicenses",
