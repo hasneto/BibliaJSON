@@ -1097,8 +1097,8 @@
         bodyHtml +
       "</div>" +
       "<div class='otica-bible-tooltip-footer'>" +
-        "Desenvolvido por " +
-        "<a href='https://www.oticareformada.com/' target='_blank' rel='noopener noreferrer'>" +
+        "Leia a Bíblia Sagrada Online em " +
+        "<a href='https://www.oticareformada.com/p/biblia-sagrada-online.html' target='_blank' rel='noopener noreferrer'>" +
           "oticareformada.com" +
         "</a>" +
       "</div>"
