@@ -1,0 +1,872 @@
+{
+"temas": [
+{
+"id": "existencia_de_deus",
+"titulo": "Existência de Deus",
+"categoria": "Doutrina de Deus",
+"sinonimos": [
+"existência de Deus",
+"Deus existe",
+"crer em Deus",
+"criador",
+"ateísmo",
+"sem Deus"
+],
+"referencias": [
+{
+"ref": "Hebreus 11:6",
+"peso": 10,
+"tipo": "principal",
+"motivo": "Afirma diretamente que quem se aproxima de Deus deve crer que ele existe."
+},
+{
+"ref": "Gênesis 1:1",
+"peso": 10,
+"tipo": "principal",
+"motivo": "Apresenta Deus como criador dos céus e da terra."
+},
+{
+"ref": "Salmo 14:1",
+"peso": 8,
+"tipo": "advertencia",
+"motivo": "Mostra a negação prática de Deus no coração do insensato."
+},
+{
+"ref": "Efésios 2:12",
+"peso": 7,
+"tipo": "advertencia",
+"motivo": "Descreve a condição espiritual de estar sem Deus no mundo."
+},
+{
+"ref": "1 Coríntios 1:20-21",
+"peso": 7,
+"tipo": "doutrinario",
+"motivo": "Contrasta a sabedoria humana com o conhecimento salvador revelado por Deus."
+}
+],
+"revisar": false
+},
+{
+"id": "conhecimento_de_deus",
+"titulo": "Conhecimento de Deus",
+"categoria": "Doutrina de Deus",
+"sinonimos": [
+"conhecer Deus",
+"conhecimento de Deus",
+"Deus incompreensível",
+"revelação de Deus",
+"vida eterna",
+"Deus verdadeiro"
+],
+"referencias": [
+{
+"ref": "João 17:3",
+"peso": 10,
+"tipo": "principal",
+"motivo": "Define a vida eterna como conhecer o único Deus verdadeiro e Jesus Cristo."
+},
+{
+"ref": "1 João 5:20",
+"peso": 9,
+"tipo": "principal",
+"motivo": "Afirma que o Filho de Deus dá entendimento para reconhecermos o verdadeiro."
+},
+{
+"ref": "Jó 11:7",
+"peso": 8,
+"tipo": "doutrinario",
+"motivo": "Mostra que o ser de Deus não pode ser plenamente sondado pelo homem."
+},
+{
+"ref": "Isaías 40:18",
+"peso": 8,
+"tipo": "doutrinario",
+"motivo": "Afirma que Deus é incomparável."
+},
+{
+"ref": "Oséias 6:3",
+"peso": 7,
+"tipo": "pratico",
+"motivo": "Exorta o povo a prosseguir no conhecimento do Senhor."
+}
+],
+"revisar": false
+},
+{
+"id": "trindade",
+"titulo": "Trindade",
+"categoria": "Doutrina de Deus",
+"sinonimos": [
+"Trindade",
+"Deus triúno",
+"Pai Filho e Espírito Santo",
+"três pessoas",
+"Trindade Santa"
+],
+"referencias": [
+{
+"ref": "Mateus 28:19",
+"peso": 10,
+"tipo": "principal",
+"motivo": "Reúne Pai, Filho e Espírito Santo no nome batismal."
+},
+{
+"ref": "2 Coríntios 13:13",
+"peso": 9,
+"tipo": "principal",
+"motivo": "Relaciona a graça de Cristo, o amor de Deus e a comunhão do Espírito Santo."
+},
+{
+"ref": "1 Pedro 1:2",
+"peso": 8,
+"tipo": "doutrinario",
+"motivo": "Relaciona Pai, Espírito e Jesus Cristo na obra da salvação."
+},
+{
+"ref": "Efésios 1:3-14",
+"peso": 7,
+"tipo": "doutrinario",
+"motivo": "Apresenta a obra salvadora de Deus com estrutura trinitária."
+}
+],
+"revisar": true
+},
+{
+"id": "divindade_de_cristo",
+"titulo": "Divindade de Cristo",
+"categoria": "Cristologia",
+"sinonimos": [
+"divindade de Cristo",
+"Jesus é Deus",
+"Cristo divino",
+"Filho de Deus",
+"Verbo",
+"natureza divina de Cristo"
+],
+"referencias": [
+{
+"ref": "João 1:1",
+"peso": 10,
+"tipo": "principal",
+"motivo": "Afirma diretamente que o Verbo era Deus."
+},
+{
+"ref": "João 20:28",
+"peso": 10,
+"tipo": "principal",
+"motivo": "Registra a confissão dirigida a Cristo como Senhor e Deus."
+},
+{
+"ref": "Filipenses 2:6",
+"peso": 9,
+"tipo": "principal",
+"motivo": "Afirma que Cristo existia em forma de Deus."
+},
+{
+"ref": "Tito 2:13",
+"peso": 9,
+"tipo": "principal",
+"motivo": "Associa Jesus Cristo ao título de grande Deus e Salvador."
+},
+{
+"ref": "Romanos 9:5",
+"peso": 8,
+"tipo": "doutrinario",
+"motivo": "É usado na formulação doutrinária da divindade de Cristo."
+},
+{
+"ref": "Colossenses 1:16",
+"peso": 8,
+"tipo": "doutrinario",
+"motivo": "Atribui a Cristo a criação de todas as coisas."
+},
+{
+"ref": "Hebreus 1:3",
+"peso": 8,
+"tipo": "doutrinario",
+"motivo": "Apresenta Cristo como expressão exata do ser de Deus e sustentador de todas as coisas."
+},
+{
+"ref": "Isaías 9:6",
+"peso": 7,
+"tipo": "doutrinario",
+"motivo": "Aplica ao Messias títulos de caráter divino."
+},
+{
+"ref": "Hebreus 13:8",
+"peso": 6,
+"tipo": "complementar",
+"motivo": "Afirma a imutabilidade de Jesus Cristo."
+}
+],
+"revisar": true
+},
+{
+"id": "pecado",
+"titulo": "Pecado",
+"categoria": "Doutrina do Pecado",
+"sinonimos": [
+"pecado",
+"culpa",
+"corrupção",
+"depravação",
+"coração pecaminoso",
+"natureza pecaminosa",
+"carne"
+],
+"referencias": [
+{
+"ref": "Romanos 3:19",
+"peso": 10,
+"tipo": "principal",
+"motivo": "Mostra a culpa universal do homem diante de Deus."
+},
+{
+"ref": "Jeremias 17:9",
+"peso": 10,
+"tipo": "principal",
+"motivo": "Afirma a corrupção profunda do coração humano."
+},
+{
+"ref": "Mateus 15:19-20",
+"peso": 10,
+"tipo": "principal",
+"motivo": "Ensina que os pecados procedem do coração."
+},
+{
+"ref": "Romanos 8:5-8",
+"peso": 9,
+"tipo": "doutrinario",
+"motivo": "Descreve a inclinação da carne como oposição a Deus."
+},
+{
+"ref": "Romanos 5:18",
+"peso": 8,
+"tipo": "doutrinario",
+"motivo": "Relaciona condenação e pecado no contexto da queda."
+},
+{
+"ref": "Efésios 2:3",
+"peso": 8,
+"tipo": "doutrinario",
+"motivo": "Descreve a condição humana como sujeita à ira."
+},
+{
+"ref": "Efésios 4:17-19",
+"peso": 7,
+"tipo": "doutrinario",
+"motivo": "Descreve a corrupção moral e espiritual do homem sem Deus."
+},
+{
+"ref": "Lucas 6:45",
+"peso": 7,
+"tipo": "pratico",
+"motivo": "Relaciona palavras e ações ao conteúdo do coração."
+},
+{
+"ref": "Hebreus 3:12",
+"peso": 7,
+"tipo": "advertencia",
+"motivo": "Adverte contra o coração mau e incrédulo."
+},
+{
+"ref": "Provérbios 4:23",
+"peso": 6,
+"tipo": "pratico",
+"motivo": "Aponta o coração como centro das saídas da vida."
+}
+],
+"revisar": false
+},
+{
+"id": "regeneracao",
+"titulo": "Regeneração",
+"categoria": "Doutrina da Salvação",
+"sinonimos": [
+"regeneração",
+"novo nascimento",
+"nascer de novo",
+"nova criatura",
+"vivificação",
+"novo homem",
+"nova criação"
+],
+"referencias": [
+{
+"ref": "João 3:3-8",
+"peso": 10,
+"tipo": "principal",
+"motivo": "Texto central sobre a necessidade de nascer de novo."
+},
+{
+"ref": "Tito 3:5",
+"peso": 10,
+"tipo": "principal",
+"motivo": "Fala da lavagem da regeneração e renovação do Espírito Santo."
+},
+{
+"ref": "João 1:13",
+"peso": 9,
+"tipo": "principal",
+"motivo": "Afirma que o novo nascimento procede de Deus."
+},
+{
+"ref": "1 Pedro 1:23",
+"peso": 9,
+"tipo": "principal",
+"motivo": "Fala do novo nascimento pela semente incorruptível."
+},
+{
+"ref": "2 Coríntios 5:17",
+"peso": 9,
+"tipo": "principal",
+"motivo": "Define o crente em Cristo como nova criatura."
+},
+{
+"ref": "Efésios 2:5",
+"peso": 9,
+"tipo": "principal",
+"motivo": "Afirma que Deus vivifica o pecador com Cristo."
+},
+{
+"ref": "Colossenses 2:13",
+"peso": 9,
+"tipo": "principal",
+"motivo": "Afirma que Deus dá vida aos que estavam mortos em delitos."
+},
+{
+"ref": "Tiago 1:18",
+"peso": 8,
+"tipo": "doutrinario",
+"motivo": "Fala de Deus gerando seus filhos pela palavra da verdade."
+},
+{
+"ref": "Gálatas 6:15",
+"peso": 7,
+"tipo": "doutrinario",
+"motivo": "Destaca a importância da nova criação."
+},
+{
+"ref": "Efésios 4:24",
+"peso": 7,
+"tipo": "pratico",
+"motivo": "Fala do revestimento do novo homem."
+},
+{
+"ref": "1 João 5:1",
+"peso": 7,
+"tipo": "doutrinario",
+"motivo": "Relaciona a fé em Cristo ao nascimento de Deus."
+},
+{
+"ref": "1 João 5:4",
+"peso": 7,
+"tipo": "consolo",
+"motivo": "Afirma que o nascido de Deus vence o mundo."
+}
+],
+"revisar": false
+},
+{
+"id": "conversao",
+"titulo": "Conversão",
+"categoria": "Doutrina da Salvação",
+"sinonimos": [
+"conversão",
+"arrependimento",
+"voltar-se para Deus",
+"retorno ao Senhor",
+"mudança de vida",
+"mudança de mente"
+],
+"referencias": [
+{
+"ref": "Lucas 15:18",
+"peso": 8,
+"tipo": "exemplo",
+"motivo": "Ilustra a conversão como retorno ao pai."
+}
+],
+"revisar": true
+},
+{
+"id": "fe_salvadora",
+"titulo": "Fé Salvadora",
+"categoria": "Doutrina da Salvação",
+"sinonimos": [
+"fé",
+"fé salvadora",
+"crer em Cristo",
+"confiança em Cristo",
+"certeza da fé"
+],
+"referencias": [
+{
+"ref": "João 11:25-27",
+"peso": 9,
+"tipo": "principal",
+"motivo": "Relaciona fé em Cristo à ressurreição e à vida."
+},
+{
+"ref": "Mateus 13:20-21",
+"peso": 8,
+"tipo": "advertencia",
+"motivo": "Distingue uma recepção temporária da palavra da perseverança verdadeira."
+},
+{
+"ref": "João 11:40",
+"peso": 7,
+"tipo": "complementar",
+"motivo": "Relaciona crer com ver a glória de Deus."
+},
+{
+"ref": "Mateus 8:10-13",
+"peso": 6,
+"tipo": "exemplo",
+"motivo": "Apresenta exemplo de fé na autoridade de Cristo."
+}
+],
+"revisar": true
+},
+{
+"id": "justificacao",
+"titulo": "Justificação",
+"categoria": "Doutrina da Salvação",
+"sinonimos": [
+"justificação",
+"justificado",
+"perdão dos pecados",
+"remissão",
+"justiça imputada",
+"paz com Deus",
+"não há condenação"
+],
+"referencias": [
+{
+"ref": "Romanos 4:5-8",
+"peso": 10,
+"tipo": "principal",
+"motivo": "Texto central sobre justificação e imputação de justiça."
+},
+{
+"ref": "Romanos 5:1-10",
+"peso": 10,
+"tipo": "principal",
+"motivo": "Relaciona justificação, paz com Deus e reconciliação."
+},
+{
+"ref": "Romanos 8:1",
+"peso": 10,
+"tipo": "consolo",
+"motivo": "Afirma que não há condenação para os que estão em Cristo."
+},
+{
+"ref": "Romanos 8:32-34",
+"peso": 9,
+"tipo": "consolo",
+"motivo": "Afirma que ninguém pode acusar os eleitos de Deus."
+},
+{
+"ref": "Romanos 5:18-19",
+"peso": 9,
+"tipo": "doutrinario",
+"motivo": "Contrasta condenação em Adão e justificação em Cristo."
+},
+{
+"ref": "Jeremias 31:34",
+"peso": 8,
+"tipo": "principal",
+"motivo": "Promete o perdão definitivo dos pecados."
+},
+{
+"ref": "Salmo 32:1",
+"peso": 8,
+"tipo": "consolo",
+"motivo": "Declara bem-aventurado aquele cuja transgressão é perdoada."
+},
+{
+"ref": "Isaías 43:25",
+"peso": 7,
+"tipo": "consolo",
+"motivo": "Afirma que Deus apaga as transgressões por amor de si mesmo."
+},
+{
+"ref": "Isaías 44:22",
+"peso": 7,
+"tipo": "consolo",
+"motivo": "Fala da remoção das transgressões por Deus."
+},
+{
+"ref": "Salmo 103:12",
+"peso": 6,
+"tipo": "consolo",
+"motivo": "Ilustra a distância com que Deus remove as transgressões."
+}
+],
+"revisar": true
+},
+{
+"id": "expiacao",
+"titulo": "Expiação",
+"categoria": "Cristologia",
+"sinonimos": [
+"expiação",
+"sacrifício de Cristo",
+"morte de Cristo",
+"reconciliação",
+"substituição penal",
+"satisfação",
+"propiciação"
+],
+"referencias": [
+{
+"ref": "2 Coríntios 5:19-20",
+"peso": 10,
+"tipo": "principal",
+"motivo": "Apresenta Deus reconciliando o mundo consigo em Cristo."
+},
+{
+"ref": "Romanos 5:10",
+"peso": 9,
+"tipo": "principal",
+"motivo": "Relaciona a morte de Cristo à reconciliação com Deus."
+},
+{
+"ref": "Efésios 1:3-14",
+"peso": 8,
+"tipo": "doutrinario",
+"motivo": "Apresenta a redenção em Cristo dentro do plano salvador de Deus."
+},
+{
+"ref": "Efésios 2:4-10",
+"peso": 7,
+"tipo": "doutrinario",
+"motivo": "Relaciona salvação à graça e à misericórdia de Deus em Cristo."
+},
+{
+"ref": "1 Pedro 1:2",
+"peso": 7,
+"tipo": "doutrinario",
+"motivo": "Relaciona a salvação à obra do Pai, do Espírito e de Cristo."
+}
+],
+"revisar": true
+},
+{
+"id": "batismo",
+"titulo": "Batismo",
+"categoria": "Doutrina da Igreja",
+"sinonimos": [
+"batismo",
+"batismo cristão",
+"sacramento",
+"lavagem",
+"purificação",
+"água",
+"batizar"
+],
+"referencias": [
+{
+"ref": "Mateus 28:19",
+"peso": 10,
+"tipo": "principal",
+"motivo": "Contém a ordem batismal dada por Cristo."
+},
+{
+"ref": "Atos 2:38",
+"peso": 9,
+"tipo": "principal",
+"motivo": "Relaciona batismo, arrependimento e perdão dos pecados."
+},
+{
+"ref": "Romanos 6:4-5",
+"peso": 9,
+"tipo": "doutrinario",
+"motivo": "Relaciona batismo à união com Cristo em sua morte e ressurreição."
+},
+{
+"ref": "1 Pedro 3:21",
+"peso": 8,
+"tipo": "doutrinario",
+"motivo": "Afirma uma relação entre batismo e salvação que exige interpretação cuidadosa."
+},
+{
+"ref": "Atos 22:16",
+"peso": 8,
+"tipo": "doutrinario",
+"motivo": "Relaciona batismo e lavagem dos pecados."
+},
+{
+"ref": "Tito 3:5",
+"peso": 7,
+"tipo": "doutrinario",
+"motivo": "Usa a linguagem da lavagem da regeneração."
+},
+{
+"ref": "Ezequiel 36:25",
+"peso": 6,
+"tipo": "complementar",
+"motivo": "Promete purificação com água limpa."
+},
+{
+"ref": "Hebreus 10:22",
+"peso": 6,
+"tipo": "complementar",
+"motivo": "Usa linguagem de purificação aplicada ao povo de Deus."
+}
+],
+"revisar": true
+},
+{
+"id": "segunda_vinda",
+"titulo": "Segunda Vinda de Cristo",
+"categoria": "Escatologia",
+"sinonimos": [
+"segunda vinda",
+"volta de Cristo",
+"parousia",
+"vinda do Senhor",
+"dia do Senhor",
+"retorno de Jesus",
+"bendita esperança"
+],
+"referencias": [
+{
+"ref": "Atos 1:11",
+"peso": 10,
+"tipo": "principal",
+"motivo": "Afirma a volta física e visível de Cristo."
+},
+{
+"ref": "Mateus 24:30-31",
+"peso": 10,
+"tipo": "principal",
+"motivo": "Descreve a vinda do Filho do Homem com poder e glória."
+},
+{
+"ref": "1 Tessalonicenses 4:15-17",
+"peso": 10,
+"tipo": "principal",
+"motivo": "Texto central sobre a vinda do Senhor e o encontro dos crentes com Cristo."
+},
+{
+"ref": "Apocalipse 1:7",
+"peso": 10,
+"tipo": "principal",
+"motivo": "Afirma a vinda visível de Cristo."
+},
+{
+"ref": "Tito 2:13",
+"peso": 9,
+"tipo": "consolo",
+"motivo": "Chama a manifestação de Cristo de bendita esperança."
+},
+{
+"ref": "Filipenses 3:20-21",
+"peso": 9,
+"tipo": "consolo",
+"motivo": "Apresenta a esperança da vinda do Salvador e da transformação do corpo."
+},
+{
+"ref": "2 Tessalonicenses 1:7-10",
+"peso": 9,
+"tipo": "principal",
+"motivo": "Relaciona a revelação de Cristo a juízo e glória."
+},
+{
+"ref": "Mateus 25:31-46",
+"peso": 9,
+"tipo": "principal",
+"motivo": "Relaciona a vinda de Cristo ao juízo final."
+},
+{
+"ref": "1 Tessalonicenses 5:2-3",
+"peso": 8,
+"tipo": "advertencia",
+"motivo": "Descreve o dia do Senhor como inesperado."
+},
+{
+"ref": "Apocalipse 16:15",
+"peso": 8,
+"tipo": "advertencia",
+"motivo": "Adverte sobre vigilância diante da vinda de Cristo."
+},
+{
+"ref": "Colossenses 3:4",
+"peso": 7,
+"tipo": "consolo",
+"motivo": "Relaciona a manifestação de Cristo à manifestação gloriosa dos crentes."
+},
+{
+"ref": "1 Coríntios 11:26",
+"peso": 6,
+"tipo": "pratico",
+"motivo": "Relaciona a Ceia do Senhor à proclamação até que Cristo venha."
+}
+],
+"revisar": true
+},
+{
+"id": "juizo_final",
+"titulo": "Juízo Final",
+"categoria": "Escatologia",
+"sinonimos": [
+"juízo final",
+"julgamento",
+"tribunal de Cristo",
+"dia do juízo",
+"condenação final",
+"grande trono branco"
+],
+"referencias": [
+{
+"ref": "Apocalipse 20:11-15",
+"peso": 10,
+"tipo": "principal",
+"motivo": "Texto central sobre o grande trono branco e o juízo final."
+},
+{
+"ref": "Atos 17:31",
+"peso": 10,
+"tipo": "principal",
+"motivo": "Afirma que Deus estabeleceu um dia para julgar o mundo por Cristo."
+},
+{
+"ref": "2 Coríntios 5:10",
+"peso": 10,
+"tipo": "principal",
+"motivo": "Afirma que todos comparecerão perante o tribunal de Cristo."
+},
+{
+"ref": "Mateus 25:31-46",
+"peso": 10,
+"tipo": "principal",
+"motivo": "Apresenta Cristo julgando as nações e separando justos e ímpios."
+},
+{
+"ref": "João 5:25-29",
+"peso": 9,
+"tipo": "principal",
+"motivo": "Relaciona ressurreição futura e juízo."
+},
+{
+"ref": "Romanos 2:3-16",
+"peso": 9,
+"tipo": "doutrinario",
+"motivo": "Ensina o juízo de Deus segundo a verdade e as obras."
+},
+{
+"ref": "Mateus 16:27",
+"peso": 8,
+"tipo": "doutrinario",
+"motivo": "Afirma que o Filho do Homem retribuirá a cada um segundo suas obras."
+},
+{
+"ref": "2 Timóteo 4:1",
+"peso": 8,
+"tipo": "doutrinario",
+"motivo": "Apresenta Cristo como juiz de vivos e mortos."
+},
+{
+"ref": "Judas 14-15",
+"peso": 8,
+"tipo": "advertencia",
+"motivo": "Fala da vinda do Senhor para exercer juízo."
+},
+{
+"ref": "Apocalipse 22:12",
+"peso": 8,
+"tipo": "advertencia",
+"motivo": "Afirma que Cristo vem trazendo recompensa segundo as obras."
+},
+{
+"ref": "1 Coríntios 4:5",
+"peso": 7,
+"tipo": "advertencia",
+"motivo": "Afirma que o Senhor trará à luz o que está oculto."
+},
+{
+"ref": "Mateus 13:49-50",
+"peso": 7,
+"tipo": "advertencia",
+"motivo": "Relaciona o fim do mundo à separação dos maus."
+}
+],
+"revisar": false
+},
+{
+"id": "ressurreicao_dos_mortos",
+"titulo": "Ressurreição dos Mortos",
+"categoria": "Escatologia",
+"sinonimos": [
+"ressurreição",
+"ressurreição dos mortos",
+"corpo ressurreto",
+"vida futura",
+"último dia",
+"mortos em Cristo"
+],
+"referencias": [
+{
+"ref": "João 5:25-29",
+"peso": 10,
+"tipo": "principal",
+"motivo": "Relaciona a voz do Filho de Deus à ressurreição e ao juízo."
+},
+{
+"ref": "1 Tessalonicenses 4:13-17",
+"peso": 10,
+"tipo": "consolo",
+"motivo": "Oferece consolo sobre os mortos em Cristo e a vinda do Senhor."
+},
+{
+"ref": "1 Coríntios 15:23",
+"peso": 9,
+"tipo": "principal",
+"motivo": "Relaciona a ressurreição à ordem dos eventos em Cristo."
+},
+{
+"ref": "Filipenses 3:20-21",
+"peso": 9,
+"tipo": "consolo",
+"motivo": "Fala da transformação do corpo na vinda de Cristo."
+},
+{
+"ref": "Apocalipse 20:11-15",
+"peso": 8,
+"tipo": "doutrinario",
+"motivo": "Relaciona os mortos ao juízo final diante de Deus."
+}
+],
+"revisar": false
+},
+{
+"id": "imortalidade_da_alma",
+"titulo": "Imortalidade da Alma",
+"categoria": "Escatologia",
+"sinonimos": [
+"imortalidade",
+"alma",
+"vida após a morte",
+"estado depois da morte",
+"existência consciente",
+"eternidade"
+],
+"referencias": [
+{
+"ref": "2 Timóteo 1:10",
+"peso": 9,
+"tipo": "principal",
+"motivo": "Afirma que Cristo trouxe à luz a vida e a imortalidade."
+},
+{
+"ref": "Eclesiastes 3:11",
+"peso": 6,
+"tipo": "complementar",
+"motivo": "É citado em conexão com Deus ter posto a eternidade no coração humano."
+}
+],
+"revisar": true
+}
+]
+}
