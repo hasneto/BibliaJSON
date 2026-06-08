@@ -1,0 +1,191 @@
+c{
+  "temas": [
+    {
+      "id": "salvacao",
+      "titulo": "Salvação",
+      "categoria": "Doutrina da Salvação",
+      "sinonimos": [
+        "salvacao",
+        "salvo",
+        "salvar",
+        "redencao",
+        "vida eterna",
+        "evangelho da salvacao",
+        "soteriologia"
+      ],
+      "referencias": [
+        {
+          "ref": "João 3:16",
+          "peso": 10,
+          "tipo": "principal",
+          "motivo": "Texto central sobre o amor de Deus e a vida eterna em Cristo."
+        },
+        {
+          "ref": "Atos 4:12",
+          "peso": 10,
+          "tipo": "principal",
+          "motivo": "Ensina que não há salvação em nenhum outro nome além de Cristo."
+        },
+        {
+          "ref": "Romanos 6:23",
+          "peso": 10,
+          "tipo": "principal",
+          "motivo": "Contrasta o salário do pecado com o dom gratuito de Deus."
+        },
+        {
+          "ref": "Efésios 2:8-9",
+          "peso": 10,
+          "tipo": "principal",
+          "motivo": "Texto central sobre salvação pela graça mediante a fé."
+        }
+      ],
+      "revisar": false
+    },
+
+    {
+      "id": "ceia_do_senhor",
+      "titulo": "Ceia do Senhor",
+      "categoria": "Doutrina da Igreja",
+      "sinonimos": [
+        "ceia do senhor",
+        "santa ceia",
+        "ceia",
+        "mesa do senhor",
+        "partir do pao",
+        "partir o pao",
+        "pao e vinho",
+        "corpo e sangue de cristo",
+        "sacramento da ceia"
+      ],
+      "referencias": [
+        {
+          "ref": "Mateus 26:26-29",
+          "peso": 10,
+          "tipo": "principal",
+          "motivo": "Registra a instituição da Ceia por Jesus."
+        },
+        {
+          "ref": "Lucas 22:14-20",
+          "peso": 10,
+          "tipo": "principal",
+          "motivo": "Apresenta o pão e o cálice como sinais ligados ao corpo e ao sangue de Cristo."
+        },
+        {
+          "ref": "1 Coríntios 10:16-17",
+          "peso": 10,
+          "tipo": "doutrinario",
+          "motivo": "Relaciona o cálice e o pão à comunhão no sangue e no corpo de Cristo."
+        },
+        {
+          "ref": "1 Coríntios 11:23-29",
+          "peso": 10,
+          "tipo": "principal",
+          "motivo": "Texto apostólico central sobre a instituição, prática e advertência da Ceia."
+        }
+      ],
+      "revisar": false
+    },
+
+    {
+      "id": "igreja",
+      "titulo": "Igreja",
+      "categoria": "Doutrina da Igreja",
+      "sinonimos": [
+        "igreja",
+        "eclesiologia",
+        "doutrina da igreja",
+        "corpo de cristo",
+        "povo de deus",
+        "assembleia",
+        "congregacao"
+      ],
+      "referencias": [
+        {
+          "ref": "Mateus 16:18",
+          "peso": 10,
+          "tipo": "principal",
+          "motivo": "Cristo declara que edificará a sua igreja."
+        },
+        {
+          "ref": "Atos 2:42-47",
+          "peso": 10,
+          "tipo": "principal",
+          "motivo": "Descreve a vida da igreja apostólica."
+        },
+        {
+          "ref": "Atos 20:28",
+          "peso": 9,
+          "tipo": "doutrinario",
+          "motivo": "Apresenta a igreja como comprada pelo sangue de Cristo."
+        },
+        {
+          "ref": "Efésios 1:22-23",
+          "peso": 10,
+          "tipo": "doutrinario",
+          "motivo": "Cristo é o cabeça da igreja."
+        },
+        {
+          "ref": "Efésios 5:25-27",
+          "peso": 10,
+          "tipo": "doutrinario",
+          "motivo": "Cristo amou a igreja e se entregou por ela."
+        },
+        {
+          "ref": "1 Timóteo 3:15",
+          "peso": 10,
+          "tipo": "principal",
+          "motivo": "A igreja é chamada coluna e firmeza da verdade."
+        }
+      ],
+      "revisar": false
+    },
+
+    {
+      "id": "inferno",
+      "titulo": "Inferno",
+      "categoria": "Escatologia",
+      "sinonimos": [
+        "inferno",
+        "morte eterna",
+        "condenacao eterna",
+        "castigo eterno",
+        "lago de fogo",
+        "geena",
+        "perdicao eterna"
+      ],
+      "referencias": [
+        {
+          "ref": "Mateus 10:28",
+          "peso": 10,
+          "tipo": "principal",
+          "motivo": "Jesus fala daquele que pode destruir alma e corpo no inferno."
+        },
+        {
+          "ref": "Mateus 25:41",
+          "peso": 10,
+          "tipo": "principal",
+          "motivo": "Fala do fogo eterno preparado para o diabo e seus anjos."
+        },
+        {
+          "ref": "Mateus 25:46",
+          "peso": 10,
+          "tipo": "principal",
+          "motivo": "Contrasta castigo eterno e vida eterna."
+        },
+        {
+          "ref": "Marcos 9:43-48",
+          "peso": 10,
+          "tipo": "advertencia",
+          "motivo": "Jesus descreve a seriedade do juízo e do inferno."
+        },
+        {
+          "ref": "Apocalipse 20:14-15",
+          "peso": 10,
+          "tipo": "principal",
+          "motivo": "Identifica o lago de fogo como a segunda morte."
+        }
+      ],
+      "revisar": false
+    }
+  ]
+}
