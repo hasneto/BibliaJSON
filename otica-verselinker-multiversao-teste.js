@@ -36,12 +36,15 @@
   }
 
   const DEFAULT_BIBLE_VERSIONS = {
-    ACF: "https://cdn.jsdelivr.net/gh/hasneto/BibliaJSON@main/ACF.json",
-    NAA: "https://cdn.jsdelivr.net/gh/hasneto/BibliaJSON@main/NAA.json",
-    NVI: "https://cdn.jsdelivr.net/gh/hasneto/BibliaJSON@main/NVI.json",
-    NVT: "https://cdn.jsdelivr.net/gh/hasneto/BibliaJSON@main/NVT.json",
-    KJA: "https://cdn.jsdelivr.net/gh/hasneto/BibliaJSON@main/KJA.json"
-  };
+  ACF: "https://cdn.jsdelivr.net/gh/hasneto/BibliaJSON@main/ACF.json",
+  ARA: "https://cdn.jsdelivr.net/gh/hasneto/BibliaJSON@main/ARA.json",
+  NAA: "https://cdn.jsdelivr.net/gh/hasneto/BibliaJSON@main/NAA.json",
+  NTLH: "https://cdn.jsdelivr.net/gh/hasneto/BibliaJSON@main/NTLH.json",
+  NVI: "https://cdn.jsdelivr.net/gh/hasneto/BibliaJSON@main/NVI.json",
+  NVT: "https://cdn.jsdelivr.net/gh/hasneto/BibliaJSON@main/NVT.json",
+  KJF: "https://cdn.jsdelivr.net/gh/hasneto/BibliaJSON@main/KJF.json",
+  KJA: "https://cdn.jsdelivr.net/gh/hasneto/BibliaJSON@main/KJA.json"
+};
 
   const CONFIG = {
     bibleJsonUrl:
